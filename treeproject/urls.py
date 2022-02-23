@@ -28,8 +28,7 @@ urlpatterns = [
     path('social-auth/',include('social_django.urls',namespace='social')),
     path('',account.views.home,name='index'),
     path('/dashboard',account.views.dashboard,name='dashboard'),
-    path('<path>', static.serve,
-      {'document_root': settings.STATIC_ROOT}, name='static'),
+    
     
 ]
 if settings.DEBUG:
