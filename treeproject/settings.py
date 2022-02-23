@@ -38,7 +38,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["treeconomyapp.herokuapp.com", "localhost", "127.0.0.1"]
 
@@ -144,7 +144,7 @@ USE_TZ = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR + '/' + 'static'
+STATIC_ROOT = (os.path.join(BASE_DIR, 'treeproject/static'),)
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'treeproject/static'),)
 
 
@@ -159,11 +159,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # EMAIL_BACKEND = 'django.core.mail.backends.xonsole.EmailBackend'
 
-EMAIL_HOST = env('EMAIL_HOST')
-EMAIL_PORT = env('EMAIL_PORT')
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+EMAIL_HOST = os.environ['EMAIL_HOST']
+EMAIL_PORT = os.environ('EMAIL_PORT')
+EMAIL_HOST_USER = os.environ('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS =  os.environ('EMAIL_USE_TLS')
 DEFAULT_FROM_EMAIL = 'alejocruzzz@gmail.com'
 
 
@@ -173,9 +173,9 @@ AUTHENTICATION_BACKENDS=['django.contrib.auth.backends.ModelBackend',
                         'social_core.backends.google.GoogleOAuth2',
 			 ]
         
-SOCIAL_AUTH_FACEBOOK_KEY=env('SOCIAL_AUTH_FACEBOOK_KEY')
-SOCIAL_AUTH_FACEBOOK_SECRET=env('SOCIAL_AUTH_FACEBOOK_SECRET')
+SOCIAL_AUTH_FACEBOOK_KEY= os.environ('SOCIAL_AUTH_FACEBOOK_KEY')
+SOCIAL_AUTH_FACEBOOK_SECRET= os.environ('SOCIAL_AUTH_FACEBOOK_SECRET')
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=env('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=env('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY= os.environ('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET= os.environ('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 
