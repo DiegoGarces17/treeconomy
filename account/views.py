@@ -1,12 +1,28 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import HttpResponse
+from django.contrib import auth
 from django.contrib.auth import authenticate,login
-from .forms import LoginForm,UserRegistrationForm,UserEditForm,ProfileEditForm
+from django.contrib.auth.models import User
+from django.template.context_processors import csrf
+from .forms import LoginForm, UserRegistrationForm,UserEditForm,ProfileEditForm
 from django.contrib.auth.decorators import login_required
-from .models import Profile
+from django.core.mail import send_mail
+from django.template import RequestContext
+import hashlib, datetime, random
+from .models import *
 from django.contrib import messages
+from django.utils import timezone
+from django.utils.encoding import force_bytes, force_text
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template.loader import render_to_string
+from .token_generator import account_activation_token
+from django.core.mail import EmailMessage
 
 
+def home(request):
+    return render(request,'account/index.html',{'section':'index'})
 
 @login_required
 def dashboard(request):
@@ -36,13 +52,51 @@ def register(request):
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
             new_user = user_form.save(commit=False)
+            new_user.is_active = False
             new_user.set_password(user_form.cleaned_data['password'])
-            new_user.save()
-            Profile.objects.create(user=new_user)
-            return render(request,'account/register_done.html',{'new_user': new_user})
+            user_form.save()  # guardar el usuario en la base de datos si es válido
+
+
+            # Enviar un email de confirmación
+            current_site = get_current_site(request)
+            email_subject = 'Activate Your Account'
+            message = render_to_string('registration/activate_account.html', {
+                'user': new_user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(new_user.pk)),
+                'token': account_activation_token.make_token(new_user),
+            })
+            to_email = user_form.cleaned_data.get('email')
+            email = EmailMessage(email_subject, message, to=[to_email])
+            email.send()
+            #return HttpResponse('We have sent you an email, please confirm your email address to complete registration')
+            return render(request,'registration/confirm_account.html')
+            #Obtener el nombre de usuario
+            #user=User.objects.get(username=username)
+
+            
     else:
         user_form=UserRegistrationForm()
     return render(request,'account/register.html',{'user_form': user_form})
+    
+def activate_account(request, uidb64, token, backend='django.contrib.auth.backends.ModelBackend'):
+    try:
+        uid = force_bytes(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+        #return HttpResponse('Your account has been activate successfully')
+        # Crear el perfil del usuario 
+        new_profile = Profile(user=user)
+        new_profile.save()
+        return render(request,'account/register_done.html',{'new_user': user})
+    else:
+        return HttpResponse('Activation link is invalid!')
+
 
 @login_required
 def edit(request):

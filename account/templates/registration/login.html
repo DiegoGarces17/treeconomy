@@ -3,32 +3,88 @@
 {% block title %}Log-in{% endblock %}
 
 {% block content %}
-  <h1>Log-in</h1>
-  {% if form.errors %}
-    <p>
-      Your username and password didn't match.
-      Please try again.
-    </p>
-  {% else %}
-    <p>Please, use the following form to log-in. If you don't have an account <a href="{% url "register" %}">register here</a></p>
-  {% endif %}
-  <div class="login-form">
-    <form action="{% url 'login' %}" method="post">
-      {{ form.as_p }}
-      {% csrf_token %}
-      <input type="hidden" name="next" value="{{ next }}" />
-      <p><input type="submit" value="Log-in"></p>
-    </form>
-    <p><a href="{% url "password_reset" %}">Forgotten your password?</a></p>
-  </div>
-  <div class="social">
-    <ul>
-      <li class="facebook">
-        <a href="{% url "social:begin" "facebook" %}">Sign in with Facebook</a>
-      </li>
-      <li class="google">
-        <a href="{% url "social:begin" "google-oauth2" %}">Sign in with Google</a>
-      </li>
-    </ul>
-  </div>
+
+<section class="info-2">
+	<div class="simulator">
+		<div class="container-fluid" id="section-arboles">
+			<div class="row justify-content-center align-items-center ">
+				<!-- Modal -->
+				<div style="display: flex;
+				align-items: center;
+				justify-content: center;
+				padding: 20px;
+        background-color: #F4F7DF;  
+        ">
+
+					<div class="col-md-7">
+						<div class="centradito">
+							<div class="texto-tree">
+								<h2 style="text-align: center; font-family: 'comfortaa-light'; font-size: 21px;">For a better world</h2>
+                <h2 class="ms-1" style="text-align: center;  font-family: 'comfortaa-light'; font-size: 39px;">We make it </h2>
+                <h2 style="text-align: center;  font-family: 'comfortaa-bold'; font-size: 66px">happen </h2>
+                <div  style="display: flex;
+				align-items: center;
+				justify-content: center;">
+								<img src="https://treeconomy.com.co/wp-content/themes/Treeconomy/img/app/image/log-in-img.svg"
+									alt="">
+                  </div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-5">
+          	<div class="card shadow-2-strong texto-tree" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center">
+
+            <h2>Your account</h2>
+
+            {% if form.errors %}
+              <p>
+                Your username and password didn't match.
+                Please try again.
+              </p>
+            {% else %}
+              <p>Please, use the following form to log-in. If you don't have an account <a class="enlace-naranja" href="{% url "register" %}">register here</a></p>
+            {% endif %}
+            
+            
+           <div class="form-group">
+           <form action="{% url 'login' %}" method="post" class="login">
+              {% csrf_token %}
+              <div class="form-outline mb-4">
+                <input class="form-control form-control-lg" name="username" />
+                <label class="form-label" for="username">Username</label>
+              </div>
+
+              <div class="form-outline mb-4">
+                <input type="password" class="form-control form-control-lg" name="password" />
+                <label class="form-label" for="password">Password</label>
+              </div>  
+              <input type="hidden" name="next" value="{{ next }}" />
+        
+            <div class="forgot">
+                <p><a class="enlace-naranja" href="{% url "password_reset" %}">Forgotten your password?</a></p>
+            </div>
+
+            <button class="btn-lg button-plant " type="submit">Login</button>
+            </form>
+            <div>
+            <hr class="my-4">
+
+            <div class="social">
+                <p> o inicia sesión con </p>
+                <a href="{% url "social:begin" "google-oauth2" %}" class="btn btn-lg btn-block btn-primary" style="background-color: #dd4b39;" type="submit"><i class="fab fa-google me-2"></i> Google</a>
+                <a href="{% url "social:begin" "facebook" %}" class="btn btn-lg btn-block btn-primary" style="background-color: #3b5998;" type="submit"><i class="fab fa-facebook-f me-2"></i>Facebook</a>
+            </div>
+
+          </div>
+        </div>
+
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
 {% endblock %}

@@ -7,7 +7,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     #postviews
     #path('login/',views.user_login,name='login'),
-    path('',views.dashboard,name='dashboard'),
+    
     #path('login/',auth_views.LoginView.as_view(),name='login'),
     #path('logout/',auth_views.LogoutView.as_view(),name='logout'),
     # #change password
@@ -21,5 +21,9 @@ urlpatterns = [
     path('',include('django.contrib.auth.urls')),
     path('register/',views.register,name='register'),
     path('edit/',views.edit,name='edit'),
+    path('activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        views.activate_account, name='activate'),
+    #path('your-projects/', ProjectByInvestorView.as_view(), name='projectsbyinvestor'),
+    #path('projectsbyinvestor/<int:pk>', ProjectByInvestorDetailView.as_view(), name='project-investor-detail')
 
 ]

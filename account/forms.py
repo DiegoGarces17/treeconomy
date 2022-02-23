@@ -19,6 +19,19 @@ class UserRegistrationForm(forms.ModelForm):
         if cd['password']!=cd['password2']:
             raise forms.ValidationError('Passwords don\'t Match')
         return cd['password2']
+    #clean email field
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email:
+            if User.objects.filter(email=email).exists():
+                raise forms.ValidationError('This email address is unavailable!')
+            else:
+                pass
+        return email
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in ['username', 'first_name', 'email', 'password', 'password2']:
+            self.fields[field].widget.attrs['class'] = 'form-control form-control-lg'
 
 class UserEditForm(forms.ModelForm):
     class Meta:
@@ -29,3 +42,6 @@ class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('date_of_birth','photo')
+
+
+

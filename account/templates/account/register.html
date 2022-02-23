@@ -3,11 +3,70 @@
 {% block title %}Create an account{% endblock %}
 
 {% block content %}
-<h1>Create an account</h1>
-<p>Please, Sign Up Using the following Form:</p>
-<form method="post">
-    {{ user_form.as_p }}
-    {% csrf_token %}
-    <p><input type="submit" value="Create my account"></p>
-</form>
+<div class="row">
+	<div style="display: flex;
+				align-items: center;
+				justify-content: center;
+				padding: 20px;
+        background-color: #F4F7DF;  
+        ">
+    <div class="col-md-7">
+        <div class="centradito">
+            <div class="texto-tree">
+                <h2 style="text-align: center; font-family: 'comfortaa-light'; font-size: 21px;">For a better world</h2>
+                <h2 class="ms-1" style="text-align: center;  font-family: 'comfortaa-light'; font-size: 39px;">We make it </h2>
+                <h2 style="text-align: center;  font-family: 'comfortaa-bold'; font-size: 66px">happen </h2>
+            <div  style="display: flex;
+                align-items: center;
+                justify-content: center;">
+                <img src="https://treeconomy.com.co/wp-content/themes/Treeconomy/img/app/image/log-in-img.svg"
+                alt="">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-5">
+    <div class="card" style="border-radius: 15px;">
+        <div class="card-body p-5">
+            <h2 class="text-center mb-5">Create an account</h2>
+            <form method="post" novalidate>
+                {% csrf_token %}
+                    {{user_form.non_field_errors}}
+                
+                    
+                {% for field in user_form %}
+                <div class="form-outline mb-4">
+                {{ field }}
+
+                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {% if field.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ field.errors }}
+                    </div>   
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <div class="form-check d-flex justify-content-center mb-5">
+                <input
+                    class="form-check-input me-2"
+                    type="checkbox"
+                    value=""
+                    id="form2Example3cg"
+                />
+                <label class="form-check-label" for="form2Example3g">
+                    I agree all statements in <a href="#!" class="text-body"><u>Terms of service</u></a>
+                </label>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                <button type="submit" class="button-plant">Register</button>
+                </div>
+            </form>
+            <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="/account/login" class="fw-bold text-body"><u>Login here</u></a></p>
+
+        </div>
+    </div>
+    </div>
+</div>
 {% endblock %}
