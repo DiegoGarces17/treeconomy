@@ -15,10 +15,8 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 #BASE_DIR = Path(__file__).resolve().parent.parent
 import os
-
-
-
 import environ
+
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
@@ -33,19 +31,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
-
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
-ALLOWED_HOSTS = ["treeconomyapp.herokuapp.com", "localhost", "127.0.0.1"]
-
 
 # Application definition
 
-INSTALLED_APPS = [
+THIRD_PARTY_APPS = []
+
+LOCAL_APPS = []
+
+DJANGO_APPS = [
     'account.apps.AccountConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -57,6 +50,8 @@ INSTALLED_APPS = [
     'django_extensions',
     
 ]
+
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -93,18 +88,6 @@ WSGI_APPLICATION = 'treeproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'treeconomy_des',
-        'ENFORCE_SCHEMA': False,
-        'CLIENT': {
-            'host': 'mongodb://localhost:27017',
-            'uuidRepresentation': 'standard',
-            'waitQueueTimeoutMS': 30000
-        },
-    }
-}
 
 
 # Password validation
@@ -145,8 +128,7 @@ USE_TZ = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR , "static")
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'treeproject/static'),]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
 
 
 LOGIN_REDIRECT_URL = 'dashboard'
@@ -160,12 +142,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # EMAIL_BACKEND = 'django.core.mail.backends.xonsole.EmailBackend'
 
-EMAIL_HOST = os.environ['EMAIL_HOST']
-EMAIL_PORT = os.environ['EMAIL_PORT']
-EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
-EMAIL_USE_TLS =  os.environ['EMAIL_USE_TLS']
-DEFAULT_FROM_EMAIL = 'alejocruzzz@gmail.com'
 
 
 AUTHENTICATION_BACKENDS=['django.contrib.auth.backends.ModelBackend',
@@ -174,9 +150,5 @@ AUTHENTICATION_BACKENDS=['django.contrib.auth.backends.ModelBackend',
                         'social_core.backends.google.GoogleOAuth2',
 			 ]
         
-SOCIAL_AUTH_FACEBOOK_KEY= os.environ['SOCIAL_AUTH_FACEBOOK_KEY']
-SOCIAL_AUTH_FACEBOOK_SECRET= os.environ['SOCIAL_AUTH_FACEBOOK_SECRET']
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY= os.environ['SOCIAL_AUTH_GOOGLE_OAUTH2_KEY']
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET= os.environ['SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET']
 
