@@ -1,11 +1,6 @@
 import os
 from .base import *
 
-import environ
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False)
-)
 
 SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = False
@@ -15,11 +10,17 @@ CSRF_TRUSTED_ORIGINS = ['https://treeconomyapp.herokuapp.com']
 
 STATIC_ROOT = os.path.join(BASE_DIR , "static")
 
+
 DATABASES = {
-        'default': {
+    'default': {
         'ENGINE': 'djongo',
-        'NAME': 'treeconomy_pro',
-        'HOST': os.environ['DB_HOST_PRO'],
+        "CLIENT": {
+            "host": os.environ['DB_HOST_PRO'],
+            "username": os.environ['DB_USER_PRO'],
+            "password": os.environ['DB_PASSWORD_PRO'],
+            "name": "treeconomy_pro",
+            "authMechanism": "SCRAM-SHA-1",
+        },
     }
 }
 
