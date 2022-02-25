@@ -5,6 +5,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = False
 
 ALLOWED_HOSTS = ["treeconomyapp.herokuapp.com"]
+CSRF_TRUSTED_ORIGINS = ['https://treeconomyapp.herokuapp.com']
 
 STATIC_ROOT = os.path.join(BASE_DIR , "static")
 
