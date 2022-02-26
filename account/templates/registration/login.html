@@ -3,7 +3,7 @@
 {% block title %}Log-in{% endblock %}
 
 {% block content %}
-
+{% load widget_tweaks %}
 <section class="info-2">
 	<div class="simulator">
 		<div class="container-fluid" id="section-arboles">
@@ -38,27 +38,32 @@
             <h2>Your account</h2>
 
             {% if form.errors %}
-              <p>
-                Your username and password didn't match.
-                Please try again.
-              </p>
+              <div class="alert alert-danger" role="alert">
+                  <p>Your username and password didn't match. Please try again.</p>
+              </div>   
             {% else %}
               <p>Please, use the following form to log-in. If you don't have an account <a class="enlace-naranja" href="{% url "register" %}">register here</a></p>
             {% endif %}
             
             
            <div class="form-group">
-           <form action="{% url 'login' %}" method="post" class="login">
+           <form action="{% url 'login' %}" method="post" class="login" novalidate>
               {% csrf_token %}
-              <div class="form-outline mb-4">
-                <input class="form-control form-control-lg" name="username" />
-                <label class="form-label" for="username">Username</label>
-              </div>
 
-              <div class="form-outline mb-4">
-                <input type="password" class="form-control form-control-lg" name="password" />
-                <label class="form-label" for="password">Password</label>
-              </div>  
+              {% for field in form %}
+                  <div class="form-outline mb-4">
+                  {{ field | add_class:'form-control form-control-lg'  }}
+                  <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                      {% if field.errors %}
+                      <div class="alert alert-danger" role="alert">
+                          {{ field.errors }}
+                      </div>   
+                      {% endif %}
+                  </div>
+              {% endfor %}
+
+             
+
               <input type="hidden" name="next" value="{{ next }}" />
         
             <div class="forgot">

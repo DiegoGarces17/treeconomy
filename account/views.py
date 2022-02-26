@@ -71,8 +71,7 @@ def register(request):
             email.send()
             #return HttpResponse('We have sent you an email, please confirm your email address to complete registration')
             return render(request,'registration/confirm_account.html')
-            #Obtener el nombre de usuario
-            #user=User.objects.get(username=username)
+            
 
             
     else:
