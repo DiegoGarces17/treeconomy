@@ -5,8 +5,10 @@ from .base import *
 SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = False
 
-ALLOWED_HOSTS = ["treeconomyapp.herokuapp.com"]
-CSRF_TRUSTED_ORIGINS = ['https://treeconomyapp.herokuapp.com']
+ALLOWED_HOSTS = ["treeconomyapp.herokuapp.com",
+"app.treeconomy.com.co"]
+CSRF_TRUSTED_ORIGINS = ['https://treeconomyapp.herokuapp.com',
+'https://app.treeconomy.com.co']
 
 STATIC_ROOT = os.path.join(BASE_DIR , "static")
 
