@@ -48,6 +48,10 @@ class SubscriptionForm(forms.ModelForm):
 
 class BillForm(forms.Form):
     
+    nombre = forms.CharField()
+    identificacion = forms.CharField()
+    beneficiario = forms.CharField()
+    id_beneficiario = forms.CharField()
     billing_address_line_1 = forms.CharField()
     billing_address_line_2 = forms.CharField()
     billing_zip_code = forms.CharField()
@@ -74,6 +78,10 @@ class BillForm(forms.Form):
         data = self.cleaned_data
         selected_billing_address = data.get('selected_billing_address', None)
         if selected_billing_address is None:
+            if not data.get('nombre', None):
+                self.add_error("nombre", "Por favor rellena este campo")
+            if not data.get('identificacion', None):
+                self.add_error("identificacion", "Por favor rellena este campo")
             if not data.get('billing_address_line_1', None):
                 self.add_error("billing_address_line_1", "Por favor rellena este campo")
             if not data.get('billing_address_line_2', None):

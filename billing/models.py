@@ -137,16 +137,6 @@ def new_card_post_save_receiver(sender, instance, created, *args, **kwargs):
 
 post_save.connect(new_card_post_save_receiver, sender=Card)
 
-
-
-# stripe.Charge.create(
-#   amount = int(order_obj.total * 100),
-#   currency = "usd",
-#   customer =  BillingProfile.objects.filter(email='hello@teamcfe.com').first().stripe_id,
-#   source = Card.objects.filter(billing_profile__email='hello@teamcfe.com').first().stripe_id, # obtained with Stripe.js
-#   description="Charge for elijah.martin@example.com"
-# )
-
 class ChargeManager(models.Manager):
     def do(self, billing_profile, order_obj, card=None): # Charge.objects.do()
         card_obj = card

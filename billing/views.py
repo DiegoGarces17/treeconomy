@@ -7,19 +7,52 @@ from django.conf import settings
 from requests import request
 from django.views.generic.base import View
 from accounts.models import Profile
-from projects.models import OrderItem, Pricing, Subscription
+from projects.models import OrderItem, Pricing, Subscription, Order
 from .utils import get_or_set_order_session
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib import messages
 from .models import BillingProfile, Card
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.template.loader import render_to_string
+from django.template.loader import get_template
+from .utils import render_to_pdf
+
 import stripe
+
+# pdf
+
+
+
 stripe.api_key = settings.STRIPE_PRIVATE_KEY
 
+def generatePdf(request,pk):
+    pdf = render_to_pdf('billing/plantilla_bill.html',pk)
+    return HttpResponse(pdf, content_type='application/pdf')
 
-def cartera_view(request):
-    return render(request,'billing/cartera.html',{'section':'cartera'})
+class PlantillaOrderView(generic.TemplateView):
+    model = Order
+    template_name = 'billing/plantilla_bill.html'
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super(PlantillaOrderView, self).get_context_data(**kwargs)
+        context["order"] = self.get_object()
+        return context
+    
+    def get_object(self):
+        return get_object_or_404(Order, pk = self.kwargs["pk"])
+    
+
+class CarteraView(generic.TemplateView):
+    template_name = 'billing/cartera.html'
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super(CarteraView, self).get_context_data(**kwargs)
+        orders_list  = Order.objects.filter(user=self.request.user)
+        context["orders_list"] = orders_list
+        return context
+    
 
 def payment_method_view(request):
     #next_url = 
@@ -252,7 +285,11 @@ class PaymentSuccessView(generic.TemplateView):
     
     def get_context_data(self, *args, **kwargs):
             context = super(PaymentSuccessView, self). get_context_data(**kwargs)
-            context["order"] = get_or_set_order_session(self.request)
+            order =  get_or_set_order_session(self.request)
+            order.ordered = True
+            order.save()
+            context["order"] = order
+            self.request.session['order_id'] = None
             return context
         
 class PaymentCancelledView(generic.TemplateView):

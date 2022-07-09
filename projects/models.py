@@ -28,14 +28,18 @@ class Bill(models.Model):
     )
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    nombre = models.CharField(max_length=150)
+    identificacion = models.CharField(max_length=150)
+    beneficiario = models.CharField(max_length=150)
+    id_beneficiario = models.CharField(max_length=150)
+    url = models.URLField(max_length=200)
     address_line_1 = models.CharField(max_length=150)
     address_line_2 = models.CharField(max_length=150)
     address_type = models.CharField(max_length=1, choices=ADDRESS_CHOICES)
     default = models.BooleanField(default=False)
-    
     city = models.CharField(max_length=100)
     zip_code = models.CharField(max_length=100)
-        
+    
     def __str__(self):
         return f"{self.address_line_1}, {self.address_line_2}, {self.city}, {self.zip_code}"
     
@@ -82,7 +86,7 @@ class Subscription(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     stripe_subscription_id = models.CharField(max_length=50)
     status = models.CharField(max_length=100)
-    n_projects      = models.PositiveIntegerField()
+    n_projects = models.PositiveIntegerField()
 
     class Meta:
         verbose_name = "Subscription"
@@ -172,11 +176,6 @@ class Order(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField(blank=True, null=True)
     ordered = models.BooleanField(default=False)
-    
-    billing_address = models.ForeignKey(
-        Bill, related_name='billing_address', blank=True, null=True, on_delete=models.SET_NULL)
-    shipping_address = models.ForeignKey(
-        Bill, related_name='shipping_address', blank=True, null=True, on_delete=models.SET_NULL)
     
     def __str__(self):
         return self.reference_number
@@ -302,8 +301,7 @@ class ProjectRecordQuerySet(models.query.QuerySet):
         lookups = (Q(heigth__icontains=query) | 
                    Q(dch__icontains=query) |
                    Q(volume__icontains=query) |
-                   Q(age__icontains=query)
-                  )
+                   Q(age__icontains=query))
 
 class ProjectRecordManager(models.Manager):
     def get_queryset(self):
@@ -338,7 +336,6 @@ class ProjectRecordManager(models.Manager):
     
     def search(self, query):
         return self.get_queryset().search(query)
-
     
 class ProjectTrackingRecord(models.Model):
     plat               = models.ForeignKey(Plat, on_delete=models.CASCADE)
@@ -415,5 +412,4 @@ class ProjectTrackingRecord(models.Model):
                                   volume_growth_pctg=volume_pctg * 100,
                                   total_unit_current=total_unit_current) 
             pr.save()
-
 

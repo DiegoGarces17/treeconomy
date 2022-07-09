@@ -105,18 +105,22 @@ class FacturacionView(generic.FormView):
         selected_billing_address =form.cleaned_data.get('selected_billing_address')
         
         if selected_billing_address:
-            order.billing_address = selected_billing_address
+            order.bill = selected_billing_address
         else:
-            address = Bill.objects.create(
+            bill = Bill.objects.create(
                 address_type = 'B',
                 user =self.request.user,
+                nombre=form.cleaned_data['nombre'],
+                identificacion=form.cleaned_data['identificacion'],
+                beneficiario=form.cleaned_data['beneficiario'],
+                id_beneficiario=form.cleaned_data['id_beneficiario'],
                 address_line_1=form.cleaned_data['billing_address_line_1'],
                 address_line_2=form.cleaned_data['billing_address_line_2'],
                 zip_code=form.cleaned_data['billing_zip_code'],
                 city=form.cleaned_data['billing_city']
             )
-            address.save()
-            order.billing_address = address
+            bill.save()
+            order.bill = bill
             
         order.save()
         messages.info(self.request, "Agregaste exitosamente tu información de facturación")

@@ -9,8 +9,8 @@
 {% include "includes/scripts.html" %}
 
 
-<div class="row">
-    <div class="col-xl-8">
+<div class="containe">
+
       <div class="card">
         <div class="card-header border-0">
           <div class="row align-items-center">
@@ -22,93 +22,73 @@
             </div>
           </div>
         </div>
+        {% if orders_list %}
+
         <div class="table-responsive">
           <!-- Projects table -->
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
               <tr>
-                <th scope="col">Nombre de la página</th>
-                <th scope="col">Visitantes</th>
-                <th scope="col">Unique users</th>
-                <th scope="col">Bounce rate</th>
+                <th scope="col">Referncia</th>
+                <th scope="col">Fecha de orden</th>
+                <th scope="col">Árboles</th>
+                <th scope="col">Pago total</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Tasa de crecimiento</th>
+                <th scope="col">Descargar Recibo</th>
               </tr>
             </thead>
             <tbody>
+              {% for order in orders_list %}
               <tr>
                 <th scope="row">
-                  /argon/
+                  {{ order.id }}
                 </th>
                 <td>
-                  4,569
+                  {% if order.ordered_date %}
+                    {{ order.ordered_date}}  
+                  {% else %}
+                    Sin fecha
+                  {% endif %}
                 </td>
                 <td>
-                  340
+                  {% for item in order.items.all %}
+                    {{ item.project.name }} x {{ item.quantity}} <br>
+                  {% endfor %}
+                <td>
+                  ${{ order.get_total }}
                 </td>
                 <td>
+                  {% if order.ordered %}
+                    COMPLETADO
+                  {% else %}
+                    FALLIDO O INCOMPLETO
+                  {% endif%}
+                </td>
+                <td>
+                  {% if order.ordered %}
                   <i class="fas fa-arrow-up text-success mr-3"></i> 46,53%
+                  {% else %}
+                  <i class="fas fa-arrow-right text-warning mr-3"></i> SIN CAMBIOS
+                  {% endif%}
+                </td>
+                <td>
+                  {% if order.ordered %}
+                  <a href="{% url 'billing:order-detail' pk=order.id %}" target="_blank"><i class="fa-solid fa-file-arrow-down mr-3"></i></a>
+                  
+                  {% else %}
+                  <i class="fas fa-arrow-right text-warning mr-3"></i> SIN CAMBIOS
+                  {% endif%}
                 </td>
               </tr>
-              <tr>
-                <th scope="row">
-                  /argon/index.html
-                </th>
-                <td>
-                  3,985
-                </td>
-                <td>
-                  319
-                </td>
-                <td>
-                  <i class="fas fa-arrow-down text-warning mr-3"></i> 46,53%
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  /argon/charts.html
-                </th>
-                <td>
-                  3,513
-                </td>
-                <td>
-                  294
-                </td>
-                <td>
-                  <i class="fas fa-arrow-down text-warning mr-3"></i> 36,49%
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  /argon/tables.html
-                </th>
-                <td>
-                  2,050
-                </td>
-                <td>
-                  147
-                </td>
-                <td>
-                  <i class="fas fa-arrow-up text-success mr-3"></i> 50,87%
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  /argon/profile.html
-                </th>
-                <td>
-                  1,795
-                </td>
-                <td>
-                  190
-                </td>
-                <td>
-                  <i class="fas fa-arrow-down text-danger mr-3"></i> 46,53%
-                </td>
-              </tr>
+              {% endfor %} 
             </tbody>
           </table>
         </div>
+        {% else %}
+        <p>Aún no se registran pagos.</p>
+      {% endif %}
       </div>
-    </div>
 </div>
 
 {% endblock %}
