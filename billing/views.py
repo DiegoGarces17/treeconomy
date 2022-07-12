@@ -18,6 +18,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template.loader import render_to_string
 from django.template.loader import get_template
 from .utils import render_to_pdf
+from django.contrib.auth.decorators import login_required
 
 import stripe
 
@@ -43,6 +44,7 @@ class PlantillaOrderView(generic.TemplateView):
     def get_object(self):
         return get_object_or_404(Order, pk = self.kwargs["pk"])
     
+
 
 class CarteraView(generic.TemplateView):
     template_name = 'billing/cartera.html'

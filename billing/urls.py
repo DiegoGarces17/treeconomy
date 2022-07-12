@@ -9,7 +9,7 @@ from . import views
 app_name = "billing"
 urlpatterns = [ 
     path('payment/config/', views.stripe_config),
-    path('cartera', CarteraView.as_view(), name='cartera'),
+    path('cartera', login_required(CarteraView.as_view()), name='cartera'),
     path('orders/<pk>', login_required(GeneratePdf), name='order-detail'),
     path('plantilla/<pk>', login_required(PlantillaOrderView.as_view()), name='plantilla-order-view'),
     path('checkout', CheckoutView.as_view(), name='checkout'),

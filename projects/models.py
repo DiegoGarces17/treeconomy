@@ -142,7 +142,10 @@ class Project(models.Model):
         super().delete()
         
     def get_price(self):
-        return "{:.2f}".format(int(self.price_subscription.price or 0) /100)
+        if self.price_subscription:
+            return "{:.2f}".format(int(self.price_subscription.price or 0) /100)
+        else:
+            return "FREE"
     
     def get_trees_left_porcent(self):
         return 100 - ((self.trees_left * 100) / int(self.n_trees or 1)) 
