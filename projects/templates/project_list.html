@@ -4,6 +4,8 @@
 
 {% block content %}
 
+{% load static %}
+
 <style>
   .tarjeta-lista {
     width: 380px;
@@ -107,7 +109,6 @@ span.naranja {
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0px 5px 10px #111111;
-  border-radius: 21px;
 }
 
 .tarjeta:before {
@@ -117,7 +118,8 @@ span.naranja {
   left: 0;
   width: 100%;
   height: 100%;
-  background: #f2622e;
+  
+   background-color: #13542d;
   clip-path: circle(150px at 80% 20%);
   transition: 0.5s ease-in-out;
 }
@@ -147,6 +149,7 @@ span.naranja {
   width: 50%;
   height: 50%;
   transition: .5s;
+  
 }
 
 .tarjeta:hover .imgBx {
@@ -163,6 +166,7 @@ span.naranja {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 270px;
+  circle(50px at 100% -20%);
 }
 
 .tarjeta .contentBx {
@@ -305,18 +309,6 @@ h5 {
   font-family: "comfortaa-bold";
 }
 
-a:hover {
-  background-color: #f2622e;
-    border-radius: 25px;
-    color: #fff;
-  
-    text-decoration: none;
-    -webkit-box-shadow: 0px 10px 14px -9px rgba(242, 98, 46, 1);
-    -moz-box-shadow: 0px 10px 14px -9px rgba(242, 98, 46, 1);
-    box-shadow: 0px 10px 14px -9px rgba(242, 98, 46, 1);
-    transition: all 0.3s;
-
-}
 .move{
   position: absolute;
 }
@@ -339,16 +331,33 @@ a:hover {
       {% endif %}
     </div>
   </div>
+  
  
   {% if project_list %}
   <div class="tarjetas">
     {% for project in project_list %}
       <div class="tarjeta card text-left">
         
-        <div class="imgBx">
-          <img src="{{project.image.url}}" class="img-fluid" alt="tree">
+        <div class="imgBx"">
+          <img src="{{project.image.url}}" class="img-fluid"  style="border-radius: 10px; box-shadow: 0px 5px 10px #00000017;" alt="tree">
         </div>
-        
+        <div class="col-6 mb-4">
+          <div id="mainToolbar">
+            <a class="button boton-fav" id="shareProject" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" >
+                <i class="material-icons">ios_share</i>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="shareProject">
+              {% with request.build_absolute_uri|add:project.name as varname %}
+                <li><a class="dropdown-item shareButton copy-btn" data-project={{ varname }}>Copy to Clipboard</a></li>
+                              
+                {% load social_share %}
+                <li>{% post_to_whatsapp varname "Share via WhatsApp" "dropdown-item" %}</li>
+                <li>{% post_to_twitter "Invest in this project: {{project.name}}. Check it out!" varname "Post to Twitter" "dropdown-item" %}</li>
+                <li>{% post_to_facebook varname "Post to Facebook" "dropdown-item" %}</li>
+              {% endwith %}
+            </ul>
+          </div>
+        </div>
       <div class="contentBx">
           <h2>{{ project.name }}</h2>
           <h5>{{ project.tree_type }}</h5>
