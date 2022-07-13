@@ -69,12 +69,12 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 body {
   margin: 0;
   font-family: Open Sans, sans-serif;
-  font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
   color: #525f7f;
   text-align: left;
   background-color: #f8f9fe; }
+
 
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important; }
@@ -88,9 +88,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
   margin-bottom: 0.5rem; }
 
-p {
-  margin-top: 0;
-  margin-bottom: 1rem; }
+
 
 abbr[title],
 abbr[data-original-title] {
@@ -13817,11 +13815,6 @@ textarea[resize="horizontal"] {
 .table .custom-toggle {
   display: block; }
 
-p {
-  font-size: 1rem;
-  font-weight: 300;
-  line-height: 1.7; }
-
 .lead {
   font-size: 1.25rem;
   font-weight: 300;
@@ -17498,4 +17491,3 @@ input.datetimepicker[data-color="yellow"] + .bootstrap-datetimepicker-widget {
 .bootstrap-datetimepicker-widget.dropdown-black table td .btn[data-action="togglePeriod"] {
   background: transparent; }
 
-/*# sourceMappingURL=argon.css.map */
