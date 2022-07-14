@@ -3,22 +3,39 @@
 {% block title %}Summary{% endblock %}
 
 {% block content %}
-
+<style>
+    
+    @media (max-width: 600px) {
+        .table {
+            font-size: 2vw; 
+        }
+        .input-group input{
+            height: 2.5vh;
+            width: 1vw;
+         
+        }
+        .input-group a {
+            display: inline-block;
+            height: 2.5vh;
+            width: 1vw;
+        }
+      }
+</style>
 <div class="site-section">
     <div class="container">
       <div class="row mb-5">
-        <div class="col-md-12">
+        
           <div class="col-md-12">
               <div class="site-blocks-table">
-                  <table class=table>
+                  <table class="table">
                     <thead>
                       <tr>
-                        <th>Inversion Type</th>
-                        <th>Project</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
+                        <th>Tipo de inversión</th>
+                        <th>Proyecto</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
                         <th>Total</th>
-                        <th>Actions</th>
+                        <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -28,13 +45,13 @@
                                 {{ item.get_label_type_choice }}
                             </td>
                             <td>
-                                <h2 class="h5 text-black">{{ item.project.name }}</h2>
+                                {{ item.project.name }}
                             </td>
                             <td>
                                 ${{ item.project.get_price }}
                             </td>
                             <td>
-                                <div class="input-group mb-3" style="max-width: 120px;">
+                                <div class="input-group mb-3" style="max-width: 150px;">
                                     <div class="input-group-pretend">
                                         <a href="{% url 'decrease-quantity-cart' item.id %}" class="btn btn-outline-primary">
                                             &minus;
@@ -55,31 +72,27 @@
                                 <a href="{% url 'remove-from-cart' item.id %}" class="btn btn-primary btn-sm">x</a>
                             </td>
                         </tr>
-                        {% empty %}
-                        <tr>
-                            <td>
-                                There are not Items in your cart. 
-                                <div class="d-grid gap-2">
-                                    <a class="btn btn-outline-primary btn-sm" href="{% url 'projects' %}">Continue shopping</a>
-                                </div>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                      
-                  </table>
+                        </tbody> 
+                    </table>
+                    {% empty %}
+                    
+                    No hay artículos en su carrito. 
+                    <div class="d-grid gap-2">
+                        <a class="btn btn-outline-primary btn-sm" href="{% url 'projects' %}">Continúa comprando</a>
+                    </div>
+                    
+                    {% endfor %}
+                    
               </div>
           </div>
-        </div>
+        
       </div>
       {% if order.items.count > 0  %}
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 col-sm-12">
                 <div class="row" mb-5>
                     <div class="col-md-12">
-                        <div class="d-grid gap-2">
-                        <a class="btn btn-outline-primary btn-sm" href="{% url 'projects' %}">Continue shopping</a>
-                        </div>
+                        <a class="btn btn-outline-primary btn-sm" href="{% url 'projects' %}">Continúa comprando</a>
                     </div>
                 </div>
             </div>
@@ -88,7 +101,7 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-12 text-right border-bottom mb-5">
-                                <h3 class="text-black h4 text-uppercase">Cart Total</h3>
+                                <h3 class="text-black h4 text-uppercase">Carrito Total</h3>
                             </div>
                         </div>
                         <div class="row mb-3">

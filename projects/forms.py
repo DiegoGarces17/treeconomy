@@ -30,6 +30,8 @@ class AddToCartForm(forms.ModelForm):
         project_id = kwargs.pop('project_id')
         project = Project.objects.get(name=project_id)
         super().__init__(*args, **kwargs)
+        for field in ['type_inversion']:
+            self.fields[field].widget.attrs['class'] = 'form-select'
         
 class SubscriptionForm(forms.ModelForm):
     OPTIONS = (('Active', 'active'), ('Closed', 'closed'), ('On hold', 'On hold'))
