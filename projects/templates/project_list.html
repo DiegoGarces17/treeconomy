@@ -107,7 +107,8 @@ span.naranja {
   background: #012623;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0px 5px 10px #111111;
+  
+  box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
 }
 
 .tarjeta:before {
@@ -318,15 +319,22 @@ h5 {
   transform: translateY(50%);
 }
 
+.editables {
+  background-color: #008CBA !important;
+  margin: 1em;
+}
+
 </style>
 
   <div class="row">
      <div class="col-6">
       {% load permission_tags %}
       {% if user|can:'manage_a_project' %}
-        <a name="" id="" class="btn btn-success " href="{% url 'crear' %}" role="button"> Create a project</a>
+        <a name="" id="" class="btn btn-success editables" href="{% url 'crear' %}" role="button"> Create a project</a>
       {% endif %}
+      
     </div>
+    
   </div>
   
  
@@ -338,6 +346,7 @@ h5 {
         <div class="imgBx"">
           <img src="{{project.image.url}}" class="img-fluid"  style="border-radius: 10px; box-shadow: 0px 5px 10px #00000017;" alt="tree">
         </div>
+        
         <div class="col-6 mb-4">
           <div id="mainToolbar">
             <a class="button boton-fav" id="shareProject" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" >
@@ -357,6 +366,11 @@ h5 {
         </div>
       <div class="contentBx">
           <h2>{{ project.name }}</h2>
+          {% load permission_tags %}
+          {% if user|can:'manage_a_project' %}
+            <a class="editables" href="{% url 'editar' project.pk  %}"role="button">Editar</a>
+            <a class="editables" href="{% url 'eliminar' project.pk %}" role="button">Eliminar</a>
+          {% endif %}
           <h5>{{ project.tree_type }}</h5>
           <br>
           <div>
@@ -365,11 +379,12 @@ h5 {
           <br>
           <div class="row">
             <div class="col-6">
-              <a class="move" href="{{ project.get_absolute_url }}">Invertir Aquí</a>
+              <a class="move btn" href="{{ project.get_absolute_url }}">Invertir Aquí</a>
             </div>
             <div class="col-6">
               <div class="vertical-center">
               <h5 class="letra_color">USD: {{ project.get_price}}</h5>
+             
               </div>
             </div>
           </div>
@@ -378,7 +393,7 @@ h5 {
           <div>
             <span class="letra_color">Disponibles: {{project.trees_left}} </span>    
           </div>
-          
+
       </div>
 
     </div>

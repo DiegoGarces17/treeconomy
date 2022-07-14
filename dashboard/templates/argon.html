@@ -5,7 +5,7 @@
   
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
-
+<script src="https://kit.fontawesome.com/717704dca6.js" crossorigin="anonymous"></script>
 {% block content %}
       <!-- Argon CSS -->
       <link rel="stylesheet"  href="{% static "dashboard/css/argon.css" %}" type="text/css">
@@ -28,7 +28,7 @@
                     </div>
                     <div class="col-auto">
                       <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
-                        <i class="fa fa-car"></i>
+                        <i class="fa-solid fa-money-bill-trend-up"></i>
                       </div>
                     </div>
                   </div>
@@ -50,7 +50,7 @@
                     </div>
                     <div class="col-auto">
                       <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
-                        <i class="fa fa-arrow-up" ></i>                        
+                        <i class="fa-solid fa-sack-dollar"></i>                        
                       </div>
                     </div>
                   </div>
@@ -94,7 +94,7 @@
                     </div>
                     <div class="col-auto">
                       <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
-                        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
                       </div>
                     </div>
                   </div>
@@ -280,10 +280,13 @@
               <div class="card-body">
                 <h2>Descargue documentos de su interés</h2>
                 <div class="row mb-3">
-                  <a href="{% static "account/css/terminoses.pdf" %}" class="btn border-light boton-documento" type="button" target="_blank">Tu contrato</a>            
-                  <a href="{% static "account/css/terminoses.pdf" %}" class="btn border-light boton-documento" type="button" target="_blank">Certificado ICA</a>
-                  <a href="{% static "account/css/terminoses.pdf" %}" class="btn border-light boton-documento" type="button" target="_blank">Contrato de Arrendamiento de tierras</a>
-                  <a href="{% static "account/css/terminoses.pdf" %}" class="btn border-light boton-documento" type="button" target="_blank">Documentos</a>   
+                  <a href="{% static "account/css/terminoses.pdf" %}" class="btn border-light boton-documento" type="button" target="_blank">Tu contrato 
+                    <i class="material-icons position-absolute end-0">file_download</i></a>            
+                  <a href="{% static "account/css/terminoses.pdf" %}" class="btn border-light boton-documento" type="button" target="_blank">Certificado ICA
+                    <i class="material-icons position-absolute end-0">file_download</i></a>
+                  <a href="{% static "account/css/terminoses.pdf" %}" class="btn border-light boton-documento" type="button" target="_blank">Contrato arrendamiento de tierras <i class="material-icons position-absolute end-0">file_download</i></a>
+                  <a href="{% static "account/css/terminoses.pdf" %}" class="btn border-light boton-documento" type="button" target="_blank">Documentos
+                    <i class="material-icons position-absolute end-0">file_download</i></a>   
                 </div>  
               </div>
             </div>
