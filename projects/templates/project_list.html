@@ -286,6 +286,31 @@ h5 {
   transition-delay: .7s;
 } 
 
+@media(hover){
+  .tarjeta:hover .contentBx .size {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: .5s;
+  }
+  
+  .tarjeta:hover .contentBx .color {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: .6s;
+  }
+  .tarjeta:hover .contentBx {
+    top: 30%;
+    height: 290px;
+  }
+  .tarjeta:hover .imgBx {
+  
+    transform: translate(-95%, -95%);
+    width: 30%;
+    height: 30%;
+    /* bug  */
+  }
+  
+}
  
 @media (min-width: 600px) {
    .tarjetas { grid-template-columns: repeat(2, 1fr); }
@@ -294,6 +319,7 @@ h5 {
 @media (min-width: 900px){
    .tarjetas {grid-template-columns: repeat(3, 1fr); }
  }
+
  .boton_per{
   text-decoration: none;
   padding: 10px;
