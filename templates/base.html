@@ -50,7 +50,7 @@
     right: 8px;
     height: 40px;
     width: 40px;
-    left: 271.5px;
+    left: 260.5px;
   }
   .button {
 
@@ -118,15 +118,18 @@ li a {
   color: #013f30;
   text-decoration: none;
 }
-.palabra {
+a .palabra {
   color: #013f30;
+  font-family: "comfortaa-bold";
+  text-decoration:none;
 }
 .material-icons.md-15 { font-size: 15px; }
 
 .fa {
   font-size: 15px;
 }
-
+a { text-decoration: none; 
+  color: black;} 
 
 @media (max-width: 1200px){
 
@@ -167,6 +170,7 @@ li a {
   color: #013f30;
   text-align: center;
 }
+
 </style>
 <body class="minimizar">
   <nav class="navbar navbul navbarmenuabajo fixed-bottom d-block d-sm-none">
@@ -257,8 +261,8 @@ li a {
         
         <li><a href="/billing/cartera"><i class="material-icons">monetization_on</i><span class="icon-text"></span>&nbsp;&nbsp;&nbsp;&nbsp;Cartera<span></a></li>
 
-        <li><a href="{% url 'contact' %}"><i class="material-icons">person_pin</i><span class="icon-text"></span>&nbsp;&nbsp;&nbsp;&nbsp;Contácanos<span></a></li>
-
+        <li><a href="{% url 'contact' %}"><i class="material-icons">contact_mail</i><span class="icon-text"></span>&nbsp;&nbsp;&nbsp;&nbsp;Contácanos<span></a></li>
+       
      </ul>
     </div>
   </nav>
@@ -268,8 +272,8 @@ li a {
       <a href="/account/profile"><span><i class="material-icons">account_circle</i><span class="icon-text">&nbsp;&nbsp;&nbsp;&nbsp;Perfil</span></a><br>
       <a href="/dashboard"><i class="material-icons">dashboard</i><span class="icon-text"></span>&nbsp;&nbsp;&nbsp;&nbsp;Dashboard</a></span></a><br>
       <a href="/projects"><i class="material-icons">forest</i><span class="icon-text"></span>&nbsp;&nbsp;&nbsp;&nbsp;Proyectos</span></a><br>
-      <a href="/billing/cartera"><i class="material-icons">monetization_on</i><span class="icon-text"></span>&nbsp;&nbsp;&nbsp;&nbsp;Cartera<span></a>
-      <a href="{% url 'contact' %}"><i class="material-icons">person_pin</i><span class="icon-text"></span>&nbsp;&nbsp;&nbsp;&nbsp;Contáctanos<span></a>
+      <a href="/billing/cartera"><i class="material-icons">monetization_on</i><span class="icon-text"></span>&nbsp;&nbsp;&nbsp;&nbsp;Cartera<span></a><br>
+      <a href="{% url 'contact' %}"><i class="material-icons">contact_mail</i><span class="icon-text"></span>&nbsp;&nbsp;&nbsp;&nbsp;Contáctanos<span></a>
   </div>
 
   <div id="main" class="main-content">
