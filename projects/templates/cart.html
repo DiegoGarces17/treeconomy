@@ -1,33 +1,45 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}Summary{% endblock %}
 
+
 {% block content %}
+
 <style>
-    
+    .input-group{
+        width: 50%;
+    }
     @media (max-width: 600px) {
         .table {
+            font-size: 2.2vw; 
+        }
+
+        .input-group{
+            width: 100%;
             font-size: 2vw; 
         }
+        .input-group a{
+            font-size: 1.5vw; 
+            height: 15px;
+        }
+
         .input-group input{
-            height: 2.5vh;
-            width: 1vw;
-         
+            font-size: 2vw; 
+            height: 10px;
+            width: 2% !important;
+        
         }
-        .input-group a {
-            display: inline-block;
-            height: 2.5vh;
-            width: 1vw;
-        }
+
+
       }
 </style>
 <div class="site-section">
     <div class="container">
       <div class="row mb-5">
-        
+        {% for item in order.items.all %}
           <div class="col-md-12">
               <div class="site-blocks-table">
-                  <table class="table">
+                  <table class="table table-sm">
                     <thead>
                       <tr>
                         <th>Tipo de inversión</th>
@@ -39,7 +51,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                        {% for item in order.items.all %}
+                        
                         <tr>
                             <td class="product-thumbnail">
                                 {{ item.get_label_type_choice }}
@@ -51,18 +63,14 @@
                                 ${{ item.project.get_price }}
                             </td>
                             <td>
-                                <div class="input-group mb-3" style="max-width: 150px;">
-                                    <div class="input-group-pretend">
-                                        <a href="{% url 'decrease-quantity-cart' item.id %}" class="btn btn-outline-primary">
-                                            &minus;
-                                        </a>
-                                    </div>
-                                    <input type="text" class="form-control text-center" value="{{ item.quantity }}">
-                                    <div class="input-group-pretend">
-                                        <a href="{% url 'increase-quantity-cart' item.id %}" class="btn btn-outline-primary">
-                                            &plus;
-                                        </a>
-                                    </div>
+                                <div class="input-group">
+                                    <a href="{% url 'decrease-quantity-cart' item.id %}" class="btn btn-sm btn-outline-secondary" type="button">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </a>
+                                    <input type="text"  class="form-control text-center" style="width: 3vw;" value="{{ item.quantity }}">
+                                    <a href="{% url 'increase-quantity-cart' item.id %}" class="btn btn-sm btn-outline-secondary" type="button">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </a>
                                 </div>
                             </td>
                             <td>
@@ -75,17 +83,22 @@
                         </tbody> 
                     </table>
                     {% empty %}
-                    
-                    No hay artículos en su carrito. 
-                    <div class="d-grid gap-2">
-                        <a class="btn btn-outline-primary btn-sm" href="{% url 'projects' %}">Continúa comprando</a>
-                    </div>
-                    
-                    {% endfor %}
-                    
+                    <div class="jumbotron">
+                        {% if request.user.is_anonymous %}
+                            <h1 class="display-4">Hola, Inversor</h1>
+                        {% else %}
+                            <h1 class="display-4">Hola, {{ request.user  }}</h1>
+                        {% endif %}
+                        <p class="lead">No hay árboles en su carrito. </p>
+                        <hr class="my-4">
+                        <p>Para comenzar a invertir en reforestación, échale un vistazo a los proyectos que tenemos disponibles</p>
+                        <p class="lead">
+                            <a class="btn btn-outline-primary btn-sm" href="{% url 'projects' %}">Ir a comprar</a>
+                        </p>
+                      </div>    
               </div>
           </div>
-        
+          {% endfor %}
       </div>
       {% if order.items.count > 0  %}
         <div class="row">
@@ -138,3 +151,5 @@
   </div>
 
 {% endblock %}
+
+
