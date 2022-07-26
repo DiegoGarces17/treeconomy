@@ -6,12 +6,6 @@ from .models import Profile, User
 from .models import ProjectByInvestor
 
 
-class ProjectInvestorAdmin(admin.ModelAdmin):
-    search_fields = ['active', 'project', 'investor']
-
-    class Meta:
-        model = ProjectByInvestor
-
 admin.site.register(Profile)
 admin.site.register(Permission)
-admin.site.register(ProjectByInvestor, ProjectInvestorAdmin)
+admin.site.register(ProjectByInvestor)

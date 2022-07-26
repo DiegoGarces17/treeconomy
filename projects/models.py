@@ -82,16 +82,15 @@ class Pricing(models.Model):
     
 class Subscription(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    pricing = models.ForeignKey(Pricing, on_delete=models.CASCADE, related_name='subscriptions')
     created = models.DateTimeField(auto_now_add=True)
     stripe_subscription_id = models.CharField(max_length=50)
     status = models.CharField(max_length=100)
     n_projects = models.PositiveIntegerField()
+    next_payment = models.DateField(auto_now=False, auto_now_add=False)
 
     class Meta:
         verbose_name = "Subscription"
         verbose_name_plural = "Subscriptions"
-        ordering = ['-created']
 
     def __str__(self):
         return self.stripe_subscription_id
@@ -107,7 +106,7 @@ class Project(models.Model):
     n_trees             = models.PositiveIntegerField()
     plantation_date     = models.DateField()
     price_onepayment    = models.ForeignKey(Pricing, related_name='projects_onepayment', blank=True, null=True, on_delete=models.SET_NULL)
-    price_subscription   = models.ForeignKey(Pricing, related_name='projects_subscription', blank=True, null=True, on_delete=models.SET_NULL)
+    price_subscription  = models.ForeignKey(Pricing, related_name='projects_subscription', blank=True, null=True, on_delete=models.SET_NULL)
     total_invested      = models.FloatField()
     total_unit_initial  = models.FloatField()
     tree_type           = models.CharField(max_length=120)
@@ -150,6 +149,18 @@ class Project(models.Model):
     def get_trees_left_porcent(self):
         return 100 - ((self.trees_left * 100) / int(self.n_trees or 1)) 
 
+class SubscriptionElement(models.Model):
+    subscription = models.ForeignKey(Subscription, related_name='elements', blank=True, null=True, on_delete=models.CASCADE)
+    price =  models.ForeignKey(Pricing, related_name='elements', blank=True, null=True, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+    
+    class Meta:
+        verbose_name = "Subscription Element"
+        verbose_name_plural = "Subscription Elements"
+
+    def __str__(self):
+        return self.subscription.stripe_subscription_id + "_" + self.price.name + str(self.quantity)
+                          
 class OrderItem(models.Model):
     order = models.ForeignKey("Order", related_name='items', on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)

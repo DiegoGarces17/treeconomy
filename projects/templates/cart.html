@@ -36,7 +36,7 @@
 <div class="site-section">
     <div class="container">
       <div class="row mb-5">
-        {% for item in order.items.all %}
+        {% if order.items.count > 0 %}
           <div class="col-md-12">
               <div class="site-blocks-table">
                   <table class="table table-sm">
@@ -51,7 +51,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                        
+                        {% for item in order.items.all %}
                         <tr>
                             <td class="product-thumbnail">
                                 {{ item.get_label_type_choice }}
@@ -77,12 +77,13 @@
                                 $ {{ item.get_total_item_price }}
                             </td>
                             <td>
-                                <a href="{% url 'remove-from-cart' item.id %}" class="btn btn-primary btn-sm">x</a>
+                                <a href="{% url 'remove-from-cart' item.id %}" class="button-plant">x</a>
                             </td>
                         </tr>
+                        {% endfor %}
                         </tbody> 
                     </table>
-                    {% empty %}
+                    {% else %}
                     <div class="jumbotron">
                         {% if request.user.is_anonymous %}
                             <h1 class="display-4">Hola, Inversor</h1>
@@ -93,23 +94,19 @@
                         <hr class="my-4">
                         <p>Para comenzar a invertir en reforestación, échale un vistazo a los proyectos que tenemos disponibles</p>
                         <p class="lead">
-                            <a class="btn btn-outline-primary btn-sm" href="{% url 'projects' %}">Ir a comprar</a>
+                            <a class="button-plant" href="{% url 'projects' %}">Ir a comprar</a>
                         </p>
                       </div>    
               </div>
           </div>
-          {% endfor %}
+          {% endif %}
       </div>
       {% if order.items.count > 0  %}
         <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="row" mb-5>
-                    <div class="col-md-12">
-                        <a class="btn btn-outline-primary btn-sm" href="{% url 'projects' %}">Continúa comprando</a>
-                    </div>
-                </div>
+            <div class="col-md-6 col-sm-12 p-5">
+                <a class="button-plant" href="{% url 'projects' %}">Agregar más árboles a la compra</a>                
             </div>
-            <div class="col-md-6 pl-5">
+            <div class="col-md-6 col-sm-12 p-5">
                 <div class="row justify-content-end">
                     <div class="col-md-12">
                         <div class="row">

@@ -6,8 +6,8 @@ from django.views import generic
 from django.conf import settings
 from requests import request
 from django.views.generic.base import View
-from accounts.models import Profile
-from projects.models import OrderItem, Pricing, Subscription, Order
+from accounts.models import Profile, ProjectByInvestor
+from projects.models import OrderItem, Pricing, Subscription, Order, SubscriptionElement
 from .utils import get_or_set_order_session
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
@@ -19,7 +19,7 @@ from django.template.loader import render_to_string
 from django.template.loader import get_template
 from .utils import render_to_pdf
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import F
 import stripe
 
 # pdf
@@ -93,6 +93,7 @@ class CheckoutView(View):
         subscription =request.user.subscription
 
         order =  get_or_set_order_session(self.request)
+        print(order.id)
         #item = order.items.all()[0]
         #pricing = get_object_or_404(Pricing, price=item.project.price.price)
         #if subscription.pricing == pricing and subscription.is_active:
@@ -115,6 +116,7 @@ class CreateSubscriptionView(APIView):
         profile = Profile.objects.get(user_id=request.user.id)
         customer_id = profile.stripe_customer_id
         orden =  get_or_set_order_session(self.request)
+        print(orden.id)
         try:
             #vincular el metodo de pago al cliente
             stripe.PaymentMethod.attach(
@@ -130,11 +132,32 @@ class CreateSubscriptionView(APIView):
                 },
             )
             
+            ## Buscamos el Project By investor o lo creamos
+            def registrar_pbi(investor, project, n_trees_subscription, n_trees_one_payment):   
+                try:
+                    obj = ProjectByInvestor.objects.get(
+                        investor= investor,
+                        project = project)
+                    obj.update(n_trees_subscription=F("n_trees_subscription") + n_trees_subscription)
+                    obj.update(n_trees_one_payment =F("n_trees_one_payment ") + n_trees_one_payment)
+                    obj.save()
+                    
+                except ProjectByInvestor.DoesNotExist:
+                    print("pbi")
+                    obj = ProjectByInvestor.objects.create(
+                        investor= request.user,
+                        project = project
+                    )
+                    obj.n_trees_subscription = n_trees_subscription
+                    obj.n_trees_one_payment = n_trees_one_payment
+                    obj.save() 
+               
             ## pagos unicos
             mis_cantidades = {}
             for item in orden.items.filter(type_inversion = 'O'):
                 mis_cantidades[item.project.price_onepayment.stripe_price_id] = item.quantity 
                 mis_precios = list(mis_cantidades.keys())
+                registrar_pbi(request.user, item.project, 0, item.quantity)
             
             
             for item in list(mis_cantidades.keys()): 
@@ -167,6 +190,7 @@ class CreateSubscriptionView(APIView):
 
             #crear suscripcion
             subscription = request.user.subscription
+            
             print(subscription.status)
             stripe_subscription = stripe.Subscription.modify(
                 subscription.stripe_subscription_id,
@@ -176,9 +200,10 @@ class CreateSubscriptionView(APIView):
             
             subscription.status=stripe_subscription.status
             print(subscription.status)
+        
             subscription.save()  
             
-            
+           
             # Buscamos los items de esa suscripcion de stripe
             items_existentes = stripe.SubscriptionItem.list(
                 subscription = stripe_subscription.id
@@ -186,11 +211,40 @@ class CreateSubscriptionView(APIView):
             mis_cantidades = {}
             for item in orden.items.filter(type_inversion = 'M'):
                 mis_cantidades[item.project.price_subscription.stripe_price_id] = item.quantity 
+                registrar_pbi(request.user, item.project, item.quantity, 0)
             mis_precios = list(mis_cantidades.keys())
             
+            # Buscamos los items de esa suscripcion de treeconomy
+            subidos_loc = []
+            mis_cantidades_loc = mis_cantidades.copy()
+            elements = subscription.elements.all()
+            
+            for element in elements:
+                if element.price.stripe_price_id in mis_precios:
+                    new_quantity_loc = mis_cantidades[element.price.stripe_price_id]
+                    actual_quantity_loc = element.quantity
+                    element.quantity = actual_quantity_loc + new_quantity_loc
+                    element.save()
+                    subidos_loc.append(element.price.stripe_price_id)
+            
+            for k in subidos_loc:
+                mis_cantidades_loc.pop(k)
+            
+            for item in list(mis_cantidades_loc.keys()):
+                subscription_element = SubscriptionElement.objects.create(
+                    subscription=subscription,
+                    price= Pricing.objects.get(stripe_price_id=item),
+                    quantity= mis_cantidades_loc[item]
+                )
+                subscription_element.save()
+            print("llego 4")
             # Busca subscription Item o por el contrario la crea
             subidos= []
             for item in items_existentes:
+                if item['price']["id"] == settings.STRIPE_FREE_PRICE:
+                    stripe.SubscriptionItem.delete(
+                        item['id'],
+                    )   
                 if item['price']["id"] in mis_precios:
                     new_quantity = mis_cantidades[item['price']["id"]]
                     actual_quantity = item['quantity']
@@ -208,8 +262,8 @@ class CreateSubscriptionView(APIView):
                     price= item,
                     quantity= mis_cantidades[item]
                 )
-                
             
+           
             datasub = {}
             datach = {}
             
@@ -288,6 +342,7 @@ class PaymentSuccessView(generic.TemplateView):
     def get_context_data(self, *args, **kwargs):
             context = super(PaymentSuccessView, self). get_context_data(**kwargs)
             order =  get_or_set_order_session(self.request)
+            print(order.id)
             order.ordered = True
             order.save()
             context["order"] = order
@@ -302,6 +357,7 @@ class PaymentFailedView(generic.TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super(PaymentFailedView, self). get_context_data(**kwargs)
         context["order"] = get_or_set_order_session(self.request)
+       
         return context
 
 class OrderHistoryListView(generic.TemplateView):

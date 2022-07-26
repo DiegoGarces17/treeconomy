@@ -6,14 +6,23 @@
         {{ error }}
       </div>
     {% endfor %}
-    {% for campo in formulario %} 
+    {% for campo in formulario %}
       <div class="mb3">
           <label for="" class="form-label">{{ campo.label}}</label>
           <br>
       {% if campo.field.widget.input_type == 'file' and campo.value %}
         <img src="{{MEDIA_URL}}/{{campo.value}}" width="100" alt="">
       {% endif %}
-
+      {% if campo.name == "plantation_date" %}
+        <input 
+          type="date"
+          name="{{ campo.name }}"
+          id=""
+          aria-describedby="helpId"
+          placeholder="{{ campo.label }}"
+          value="{{campo.value | default:''}}"
+          />
+      {% else %}
           <input 
           type="{{ campo.field.widget.input_type }}"
           name="{{ campo.name }}"
@@ -22,6 +31,7 @@
           placeholder="{{ campo.label }}"
           value="{{campo.value | default:''}}"
           />
+      {% endif %}
       </div>
       <div class="col-12 help-text">
         {{campo.errors}}
