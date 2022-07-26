@@ -6,6 +6,11 @@
 {% block content %}
 {% load permission_tags %}
 
+
+     
+      
+
+
 <style>
 .banner-producto {
   background-color: #018669;
@@ -190,7 +195,7 @@ ol, li {
 
 .carousel {
   position: relative;
-  padding-top: 75%;
+  padding-top: 50%;
   filter: drop-shadow(0 0 10px #0003);
   perspective: 100px;
 }
@@ -211,7 +216,7 @@ ol, li {
 .carousel__slide {
   position: relative;
   flex: 0 0 100%;
-  width: 100%;
+  width: 50%;
   background-color: #f99;
   counter-increment: item;
 }
@@ -243,7 +248,7 @@ ol, li {
   .carousel__snapper {
     animation-name: tonext, snap;
     animation-timing-function: ease;
-    animation-duration: 4s;
+    animation-duration: 3s;
     animation-iteration-count: infinite;
   }
 
@@ -278,8 +283,8 @@ ol, li {
 
 .carousel__navigation-button {
   display: inline-block;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1rem;
+  height: 1rem;
   background-color: #333;
   background-clip: content-box;
   border: 0.25rem solid transparent;
@@ -293,10 +298,10 @@ ol, li {
 .carousel__prev,
 .carousel__next {
   position: absolute;
-  top: 0;
-  margin-top: 37.5%;
-  width: 4rem;
-  height: 4rem;
+  top: 0px;
+  margin-top: 25%;
+  width: 2rem;
+  height: 2rem;
   transform: translateY(-50%);
   border-radius: 50%;
   font-size: 0;
@@ -336,6 +341,38 @@ ol, li {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='100,50 20,100 20,0' fill='%23fff'/%3E%3C/svg%3E");
 }
 
+.titulo-galeria{
+  font-family: "comfortaa-bold";
+    color: #035941;
+    font-size: 30px;
+}
+.subtitlo-galeria{
+  font-family: "comfortaa-bold";
+    color: #035941;
+    font-size: 20px;
+}
+.p-galeria{
+  font-family: "lato-regular";
+    color: #035941;
+    font-size: 16px;
+}
+.card-galery{
+  position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 0.375rem;
+    box-shadow: 10px 5px 5px #09111e15 !important;
+}
+.card-body-galery{
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.5rem;
+}
 </style>
 
 <div class="banner-producto">
@@ -438,68 +475,83 @@ ol, li {
 <br/>
 <br/>
 <br/>
+ <div class="card-galery">
+  <div class="card-body-galery">
+     <div class="row">
+    <div class="col-xl-4">
+      <h2 class="titulo-galeria">Gmelina Arborea</h2>
+      <h4 class="subtitlo-galeria">{{ project.tree_type }}</h4>
+      <P class="p-galeria">Observaciones del proyecto, galeria y contenido destacado el cual se ha venido
+        recopilando a medida que avanza el proyecto ¡hecha un vistazo!
+      </P>
+    </div>
+    <div class="col-xl-8">
+     <section class="carousel" aria-label="Gallery">
+      <ol class="carousel__viewport">
+        <li id="carousel__slide1"
+            tabindex="0"
+            class="carousel__slide">
+          <div class="carousel__snapper">
+            <a href="#carousel__slide4"
+               class="carousel__prev">Go to last slide</a>
+            <a href="#carousel__slide2"
+               class="carousel__next">Go to next slide</a>
+          </div>
+        </li>
+        <li id="carousel__slide2"
+            tabindex="0"
+            class="carousel__slide">
+          <div class="carousel__snapper"></div>
+          <a href="#carousel__slide1"
+             class="carousel__prev">Go to previous slide</a>
+          <a href="#carousel__slide3"
+             class="carousel__next">Go to next slide</a>
+        </li>
+        <li id="carousel__slide3"
+            tabindex="0"
+            class="carousel__slide">
+          <div class="carousel__snapper"></div>
+          <a href="#carousel__slide2"
+             class="carousel__prev">Go to previous slide</a>
+          <a href="#carousel__slide4"
+             class="carousel__next">Go to next slide</a>
+        </li>
+        <li id="carousel__slide4"
+            tabindex="0"
+            class="carousel__slide">
+          <div class="carousel__snapper"></div>
+          <a href="#carousel__slide3"
+             class="carousel__prev">Go to previous slide</a>
+          <a href="#carousel__slide1"
+             class="carousel__next">Go to first slide</a>
+        </li>
+      </ol>
+      <aside class="carousel__navigation">
+        <ol class="carousel__navigation-list">
+          <li class="carousel__navigation-item">
+            <a href="#carousel__slide1"
+               class="carousel__navigation-button">Go to slide 1</a>
+          </li>
+          <li class="carousel__navigation-item">
+            <a href="#carousel__slide2"
+               class="carousel__navigation-button">Go to slide 2</a>
+          </li>
+          <li class="carousel__navigation-item">
+            <a href="#carousel__slide3"
+               class="carousel__navigation-button">Go to slide 3</a>
+          </li>
+          <li class="carousel__navigation-item">
+            <a href="#carousel__slide4"
+               class="carousel__navigation-button">Go to slide 4</a>
+          </li>
+        </ol>
+      </aside>
+     </section>
+   </div>
+     </div>
+  </div>  
+ </div>  
 
-<section class="carousel" aria-label="Gallery">
-  <ol class="carousel__viewport">
-    <li id="carousel__slide1"
-        tabindex="0"
-        class="carousel__slide">
-      <div class="carousel__snapper">
-        <a href="#carousel__slide4"
-           class="carousel__prev">Go to last slide</a>
-        <a href="#carousel__slide2"
-           class="carousel__next">Go to next slide</a>
-      </div>
-    </li>
-    <li id="carousel__slide2"
-        tabindex="0"
-        class="carousel__slide">
-      <div class="carousel__snapper"></div>
-      <a href="#carousel__slide1"
-         class="carousel__prev">Go to previous slide</a>
-      <a href="#carousel__slide3"
-         class="carousel__next">Go to next slide</a>
-    </li>
-    <li id="carousel__slide3"
-        tabindex="0"
-        class="carousel__slide">
-      <div class="carousel__snapper"></div>
-      <a href="#carousel__slide2"
-         class="carousel__prev">Go to previous slide</a>
-      <a href="#carousel__slide4"
-         class="carousel__next">Go to next slide</a>
-    </li>
-    <li id="carousel__slide4"
-        tabindex="0"
-        class="carousel__slide">
-      <div class="carousel__snapper"></div>
-      <a href="#carousel__slide3"
-         class="carousel__prev">Go to previous slide</a>
-      <a href="#carousel__slide1"
-         class="carousel__next">Go to first slide</a>
-    </li>
-  </ol>
-  <aside class="carousel__navigation">
-    <ol class="carousel__navigation-list">
-      <li class="carousel__navigation-item">
-        <a href="#carousel__slide1"
-           class="carousel__navigation-button">Go to slide 1</a>
-      </li>
-      <li class="carousel__navigation-item">
-        <a href="#carousel__slide2"
-           class="carousel__navigation-button">Go to slide 2</a>
-      </li>
-      <li class="carousel__navigation-item">
-        <a href="#carousel__slide3"
-           class="carousel__navigation-button">Go to slide 3</a>
-      </li>
-      <li class="carousel__navigation-item">
-        <a href="#carousel__slide4"
-           class="carousel__navigation-button">Go to slide 4</a>
-      </li>
-    </ol>
-  </aside>
-</section>
 
 
 <script>
