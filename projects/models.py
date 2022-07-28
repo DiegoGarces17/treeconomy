@@ -32,7 +32,6 @@ class Bill(models.Model):
     identificacion = models.CharField(max_length=150)
     beneficiario = models.CharField(max_length=150)
     id_beneficiario = models.CharField(max_length=150)
-    url = models.URLField(max_length=200)
     address_line_1 = models.CharField(max_length=150)
     address_line_2 = models.CharField(max_length=150)
     address_type = models.CharField(max_length=1, choices=ADDRESS_CHOICES)
