@@ -88,8 +88,6 @@ class BillForm(forms.Form):
                 self.add_error("billing_address_line_1", "Por favor rellena este campo")
             if not data.get('billing_address_line_2', None):
                 self.add_error("billing_address_line_2", "Por favor rellena este campo")
-            if not data.get('billing_zip_code', None):
-                self.add_error("billing_zip_code", "Por favor rellena este campo")
             if not data.get('billing_city', None):
                 self.add_error("billing_city", "Por favor rellena este campo")
         

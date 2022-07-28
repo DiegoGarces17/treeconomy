@@ -37,10 +37,10 @@ class Bill(models.Model):
     address_type = models.CharField(max_length=1, choices=ADDRESS_CHOICES)
     default = models.BooleanField(default=False)
     city = models.CharField(max_length=100)
-    zip_code = models.CharField(max_length=100)
+    zip_code = models.CharField(max_length=100, null=True, blank=True)
     
     def __str__(self):
-        return f"{self.address_line_1}, {self.address_line_2}, {self.city}, {self.zip_code}"
+        return f"{self.nombre}, {self.address_line_1}, {self.city}"
     
     class Meta:
         verbose_name_plural= "Bills"
