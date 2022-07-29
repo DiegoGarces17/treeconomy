@@ -44,7 +44,7 @@ class SubscriptionForm(forms.ModelForm):
     def clean_status(self):
         status = self.cleaned_data['status']
         if not status:
-            raise forms.ValidationError('You have to provide a status for this subscription')
+            raise forms.ValidationError('Tienes que proporcionar un estado para esta suscripción.')
         
         return status
 
