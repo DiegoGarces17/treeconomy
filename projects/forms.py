@@ -44,7 +44,7 @@ class SubscriptionForm(forms.ModelForm):
     def clean_status(self):
         status = self.cleaned_data['status']
         if not status:
-            raise forms.ValidationError('Estas sucursales se pueden fusionar automáticamente.')
+            raise forms.ValidationError('Tienes que especificar un estado para esta suscripción.')
         
         return status
 
