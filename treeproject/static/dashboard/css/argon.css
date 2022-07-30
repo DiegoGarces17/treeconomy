@@ -159,7 +159,9 @@ a {
 
 .boton-documento {
   color: #fff;
-  background-color: #012623; }
+  background-color: #012623; 
+
+}
 
 a:not([href]) {
   color: inherit;
