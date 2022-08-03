@@ -185,8 +185,8 @@
                 </ul>
               </div>
               <div class="col-xl-3 col-12">
-                <p id="costo" class="costo">Costo por arbol: <br></p>
-                  <span>${{ project.get_price }}</span>
+                <p  class="costo">Costo por arbol: <br></p>
+                  $<span id="costo">{{ project.get_price }}</span>
               </div>
             </div>
             <div class="row">
@@ -217,7 +217,7 @@
            </div>
            <br>
           <div class="row">
-            <div class="col col-md-auto col-sm-6">
+            <div class="col-6 col-md-auto col-sm-6">
               <div class="input-group mb-3" style="max-width: 120px;">
                 <div class="input-group-pretend">
                     <a></a>
@@ -241,7 +241,12 @@
                 </div>
               </div>
             </div>
-
+            
+            <div class="col-6 col-md-auto col-sm-6 text-right">
+                <span class="text-black">Total: </span>
+                $<span id="total_pdetail" class="text-black">0</span>USD.
+            </div>
+          
           </div>
           <button type="submit" class="btn btn-sm btn-primary buy-now">Añadir al carrito</button>
 
@@ -292,14 +297,17 @@
 <script>
   var btn_disminuir = document.getElementById("disminuir_arboles")
   var btn_aumentar = document.getElementById("aumentar_arboles")
-  
+  var precio = document.getElementById("costo")
+  var total_pdetail_campo = document.getElementById("total_pdetail")
+  var total_pdetail = parseInt(total_pdetail_campo.innerHTML)
+  total = 0
+  total_pdetail_campo.innerHTML = parseFloat(precio.innerHTML)
   btn_aumentar.addEventListener("click", function(){
     campo_cantidad = document.getElementById("id_quantity")
     parseInt(campo_cantidad)
     campo_cantidad.value ++
-    
-    console.log(parseInt(campo_cantidad.value))
-    
+    total = parseInt(campo_cantidad.value) * parseFloat(precio.innerHTML)
+    total_pdetail_campo.innerHTML = total
   })
 
   btn_disminuir.addEventListener("click", function(){
@@ -310,7 +318,8 @@
     if(campo_cantidad.value>1){
       campo_cantidad.value --
     }
-    
+    total = parseInt(campo_cantidad.value) * parseFloat(precio.innerHTML)
+    total_pdetail_campo.innerHTML = total
     console.log(parseInt(campo_cantidad.value))
   })
 

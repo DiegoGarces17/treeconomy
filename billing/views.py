@@ -1,3 +1,4 @@
+import re
 from django.conf import settings
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404, reverse
@@ -7,7 +8,7 @@ from django.conf import settings
 from requests import request
 from django.views.generic.base import View
 from accounts.models import Profile, ProjectByInvestor
-from projects.models import OrderItem, Pricing, Subscription, Order, SubscriptionElement
+from projects.models import OrderItem, Pricing, Subscription, Order, SubscriptionElement, Bill
 from .utils import get_or_set_order_session
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
@@ -20,8 +21,15 @@ from django.template.loader import get_template
 from .utils import render_to_pdf
 from django.contrib.auth.decorators import login_required
 from django.db.models import F
+from docxtpl import DocxTemplate
 import stripe
-
+from django.http import HttpResponse
+from wsgiref.util import FileWrapper
+from django.core.files import File as DjangoFile
+from django.core.files import File
+from pathlib import Path
+from django.utils.text import slugify
+import convertapi
 # pdf
 
 
@@ -44,8 +52,38 @@ class PlantillaOrderView(generic.TemplateView):
     def get_object(self):
         return get_object_or_404(Order, pk = self.kwargs["pk"])
     
+def generar_contrato(request, orden, perfil):
+    factura = orden.bill
+    doc = DocxTemplate("billing/templates/billing/contrato.docx")
+    context = {
+        'fecha': orden.ordered_date,
+        'orden': orden.id,
+        'comprador_nombre': factura.comprador_nombre, 
+        'comprador_id': factura.comprador_id,
+        'comprador_email': factura.comprador_email,
+        'comprador_telefono': factura.comprador_phone,
+        'beneficiario_nombre': factura.beneficiario_nombre, 
+        'beneficiario_id': factura.beneficiario_id, 
+        'beneficiario_email': factura.beneficiario_email,
+        'beneficiario_telefono': factura.beneficiario_phone
+        }
+    doc.render(context)
+    doc.save("billing/templates/billing/contrato_editado.docx")
 
-
+    #doc_docx = aw.Document("billing/templates/billing/contrato_editado.docx")
+    convertapi.api_secret = settings.CONVERTAPI_SECRET_KEY
+    result = convertapi.convert('pdf', { 'File': "billing/templates/billing/contrato_editado.docx" })
+    # save to file
+    result.file.save("billing/templates/billing/contrato_editado.pdf")
+    
+    #doc_docx.save("billing/templates/billing/contrato_editado.pdf")
+    path = Path("billing/templates/billing/contrato_editado.pdf")
+    with path.open(mode='rb') as f:
+        print(path.name)
+        orden.contrato = File(f, name="contrato-%s.pdf" % (slugify(factura.comprador_nombre)))
+        orden.save()
+    
+    
 class CarteraView(generic.TemplateView):
     template_name = 'billing/cartera.html'
     
@@ -71,7 +109,7 @@ def payment_method_view(request):
     print(next_)
     if is_safe_url(next_, request.get_host()):
         next_url = next_
-    return render(request, 'billing/payment-method.html', {"publish_key": STRIPE_PUB_KEY, "next_url": next_url})
+    return render(request, 'billing/payment-method.html', {"publish_key": STRIPE_PUBLIC_KEY, "next_url": next_url})
 
 def payment_method_createview(request):
     
@@ -138,8 +176,10 @@ class CreateSubscriptionView(APIView):
                     obj = ProjectByInvestor.objects.get(
                         investor= investor,
                         project = project)
-                    obj.update(n_trees_subscription=F("n_trees_subscription") + n_trees_subscription)
-                    obj.update(n_trees_one_payment =F("n_trees_one_payment ") + n_trees_one_payment)
+                    nts_actual = obj.n_trees_subscription
+                    nto_actual = obj.n_trees_one_payment
+                    obj.n_trees_subscription = nts_actual + n_trees_subscription
+                    obj.n_trees_one_payment = nto_actual + n_trees_one_payment
                     obj.save()
                     
                 except ProjectByInvestor.DoesNotExist:
@@ -271,6 +311,8 @@ class CreateSubscriptionView(APIView):
             #datach.update(session)
             
             data= [datasub, datach]
+            
+            generar_contrato(request, orden, profile)
             return Response(data)
         except Exception as e:
             return Response({
@@ -338,6 +380,8 @@ class ChangeSubscriptionView(APIView):
 class PaymentSuccessView(generic.TemplateView):
     
     template_name = "billing/success.html"
+    
+    
     
     def get_context_data(self, *args, **kwargs):
             context = super(PaymentSuccessView, self). get_context_data(**kwargs)

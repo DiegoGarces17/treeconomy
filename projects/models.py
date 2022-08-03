@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from statistics import mean
 import math
+from phonenumber_field.modelfields import PhoneNumberField
 import stripe
 
 stripe.api_key = settings.STRIPE_PRIVATE_KEY
@@ -28,19 +29,23 @@ class Bill(models.Model):
     )
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    nombre = models.CharField(max_length=150)
-    identificacion = models.CharField(max_length=150)
-    beneficiario = models.CharField(max_length=150)
-    id_beneficiario = models.CharField(max_length=150)
+    comprador_nombre = models.CharField(max_length=150)
+    comprador_id = models.CharField(max_length=150)
+    comprador_email = models.EmailField(max_length=254, null=True, blank=True)
+    comprador_phone = PhoneNumberField(blank=True, null=True)
+    beneficiario_nombre = models.CharField(max_length=150, null=True, blank=True)
+    beneficiario_id = models.CharField(max_length=150, null=True, blank=True)
+    beneficiario_email = models.EmailField(max_length=254, null=True, blank=True)
+    beneficiario_phone = PhoneNumberField(blank=True, null=True)
     address_line_1 = models.CharField(max_length=150)
-    address_line_2 = models.CharField(max_length=150)
-    address_type = models.CharField(max_length=1, choices=ADDRESS_CHOICES)
+    address_line_2 = models.CharField(max_length=150, null=True, blank=True)
+    address_type = models.CharField(max_length=1, choices=ADDRESS_CHOICES, null=True, blank=True)
     default = models.BooleanField(default=False)
     city = models.CharField(max_length=100)
     zip_code = models.CharField(max_length=100, null=True, blank=True)
     
     def __str__(self):
-        return f"{self.nombre}, {self.address_line_1}, {self.city}"
+        return f"{self.comprador_nombre}, {self.address_line_1}, {self.city}"
     
     class Meta:
         verbose_name_plural= "Bills"
@@ -186,6 +191,7 @@ class OrderItem(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
     bill = models.ForeignKey(Bill, related_name='bill', blank=True, null=True, on_delete=models.SET_NULL)
+    contrato = models.FileField(upload_to='contratos/', blank=True, null=True)
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField(blank=True, null=True)
     ordered = models.BooleanField(default=False)

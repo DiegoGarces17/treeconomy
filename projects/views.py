@@ -32,6 +32,7 @@ class ProjectDetailListView(generic.FormView):
     def get_context_data(self, *args, **kwargs):
         context = super(ProjectDetailListView, self).get_context_data(*args, **kwargs)
         context["project"] = self.get_object()
+        context["order"] = get_or_set_order_session(self.request)
         return context
     
     def get_object(self):
@@ -102,18 +103,23 @@ class FacturacionView(generic.FormView):
 
     def form_valid(self, form):
         order = get_or_set_order_session(self.request)
-        selected_billing_address =form.cleaned_data.get('selected_billing_address')
-        
+        #selected_billing_address =form.cleaned_data.get('selected_billing_address')
+        selected_billing_address = False
         if selected_billing_address:
+            print("hay factura")
             order.bill = selected_billing_address
         else:
             bill = Bill.objects.create(
                 address_type = 'B',
                 user =self.request.user,
-                nombre=form.cleaned_data['nombre'],
-                identificacion=form.cleaned_data['identificacion'],
-                beneficiario=form.cleaned_data['beneficiario'],
-                id_beneficiario=form.cleaned_data['id_beneficiario'],
+                comprador_nombre=form.cleaned_data['comprador_nombre'],
+                comprador_id=form.cleaned_data['comprador_id'],
+                comprador_email= form.cleaned_data['comprador_email'],
+                comprador_phone= form.cleaned_data['comprador_phone'],
+                beneficiario_nombre=form.cleaned_data['beneficiario_nombre'],
+                beneficiario_id=form.cleaned_data['beneficiario_id'],
+                beneficiario_email= form.cleaned_data['beneficiario_email'],
+                beneficiario_phone= form.cleaned_data['beneficiario_phone'],
                 address_line_1=form.cleaned_data['billing_address_line_1'],
                 address_line_2=form.cleaned_data['billing_address_line_2'],
                 zip_code=form.cleaned_data['billing_zip_code'],

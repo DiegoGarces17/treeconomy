@@ -3,6 +3,7 @@ from django.urls import reverse
 from django import forms
 from .models import OrderItem, Project, Bill, Subscription
 from accounts.models import ProjectByInvestor, User
+from phonenumber_field.formfields import PhoneNumberField
 
 class ProjectForm(forms.ModelForm):  
     class Meta:
@@ -50,18 +51,23 @@ class SubscriptionForm(forms.ModelForm):
 
 class BillForm(forms.Form):
     
-    nombre = forms.CharField()
-    identificacion = forms.CharField()
-    beneficiario = forms.CharField()
-    id_beneficiario = forms.CharField()
-    billing_address_line_1 = forms.CharField()
-    billing_address_line_2 = forms.CharField()
-    billing_zip_code = forms.CharField()
-    billing_city = forms.CharField()
+    #selected_billing_address = forms.ModelChoiceField(
+    #    Bill.objects.none(), required=False,
+    #    label="Seleccione un factura antigua:"
+    #)
+    comprador_nombre = forms.CharField(label="Comprador: Nombre completo")
+    comprador_id = forms.CharField(label="Comprador: Identificación")
+    comprador_email = forms.EmailField(label="Comprador: Correo electrónico")
+    comprador_phone = PhoneNumberField(widget=forms.TextInput(), label="Comprador: Teléfono") 
+    beneficiario_nombre = forms.CharField(label="Tercero de confianza: Nombre completo")
+    beneficiario_id = forms.CharField(label="Tercero de confianza: Identificación")
+    beneficiario_email = forms.EmailField(label="Tercero de confianza: Correo electrónico")
+    beneficiario_phone = PhoneNumberField(widget=forms.TextInput(), label="Tercero de confianza: Teléfono")  
+    billing_address_line_1 = forms.CharField(label="Dirección")
+    billing_address_line_2 = forms.CharField(label="Casa, Apartamento, etc.")
+    billing_zip_code = forms.CharField(label="Código postal")
+    billing_city = forms.CharField(label="Ciudad")
     
-    selected_billing_address = forms.ModelChoiceField(
-        Bill.objects.none(), required=False
-    )
       
     def __init__(self, *args, **kwargs):
         user_id = kwargs.pop('user_id')
@@ -74,21 +80,6 @@ class BillForm(forms.Form):
                 address_type='B'
             )
             
-            self.fields['selected_billing_address'].queryset = billing_address_qs
-
-    def clean(self):
-        data = self.cleaned_data
-        selected_billing_address = data.get('selected_billing_address', None)
-        if selected_billing_address is None:
-            if not data.get('nombre', None):
-                self.add_error("nombre", "Por favor rellena este campo")
-            if not data.get('identificacion', None):
-                self.add_error("identificacion", "Por favor rellena este campo")
-            if not data.get('billing_address_line_1', None):
-                self.add_error("billing_address_line_1", "Por favor rellena este campo")
-            if not data.get('billing_address_line_2', None):
-                self.add_error("billing_address_line_2", "Por favor rellena este campo")
-            if not data.get('billing_city', None):
-                self.add_error("billing_city", "Por favor rellena este campo")
+            #self.fields['selected_billing_address'].queryset = billing_address_qs
         
         

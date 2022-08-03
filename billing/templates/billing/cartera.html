@@ -29,13 +29,14 @@
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
               <tr>
-                <th scope="col">Referncia</th>
+                <th scope="col">Referencia</th>
                 <th scope="col">Fecha de orden</th>
                 <th scope="col">Árboles</th>
                 <th scope="col">Pago total</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Tasa de crecimiento</th>
-                <th scope="col">Descargar Recibo</th>
+                <th scope="col">Recibo de pago</th>
+                <th scope="col">Contrato</th>
               </tr>
             </thead>
             <tbody>
@@ -75,7 +76,14 @@
                 <td>
                   {% if order.ordered %}
                   <a href="{% url 'billing:order-detail' pk=order.id %}" target="_blank"><i class="fa-solid fa-file-arrow-down mr-3"></i></a>
-                  
+                 
+                  {% else %}
+                  No Disponible
+                  {% endif%}
+                </td>
+                <td>
+                  {% if order.contrato %}
+                  <a href="{{ order.contrato.url}}" target="_blank"><i class="fa-solid fa-file-arrow-down mr-3"></i></a>
                   {% else %}
                   No Disponible
                   {% endif%}
