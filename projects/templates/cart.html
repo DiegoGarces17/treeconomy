@@ -80,9 +80,9 @@
                                 <a href="{% url 'remove-from-cart' item.id %}" class="button-plant">x</a>
                             </td>
                         </tr>
-                        {% endfor %}
-                        </tbody> 
-                    </table>
+                         {% endfor %}
+                    </tbody> 
+                 </table>
                     {% else %}
                     <div class="jumbotron">
                         {% if request.user.is_anonymous %}
@@ -96,11 +96,12 @@
                         <p class="lead">
                             <a class="button-plant" href="{% url 'projects' %}">Ir a comprar</a>
                         </p>
-                      </div>    
+                    </div> 
+                    {% endif %}   
               </div>
           </div>
-          {% endif %}
-      </div>
+          
+     </div>
       {% if order.items.count > 0  %}
         <div class="row">
             <div class="col-md-6 col-sm-12 p-5">
@@ -143,9 +144,9 @@
         </div>
         {% endif %}
 
-      </div>
+      
     </div>
-  </div>
+</div>
 
 {% endblock %}
 

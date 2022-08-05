@@ -205,7 +205,7 @@
              <div class="col col-md-auto col-sm-6">
               {% csrf_token %}
     
-              {% if form..errors %}
+              {% if form.errors %}
                   {{ form.type_inversion|add_attr:'is-invalid'}}
               {% else %}
                   {{ form.type_inversion }} 
