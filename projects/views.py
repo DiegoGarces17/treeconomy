@@ -95,8 +95,8 @@ class RemoveFromCartView(generic.View):
         return redirect("summary")
  
 class FacturacionView(generic.FormView): 
-    template_name= 'facturacion.html'
-    form_class = BillForm
+    template_name= 'facturacion.html' 
+    form_class = BillForm  
 
     def get_success_url(self):
         return reverse("billing:checkout")
@@ -140,6 +140,28 @@ class FacturacionView(generic.FormView):
     def get_context_data(self, *args, **kwargs):
         context = super(FacturacionView, self).get_context_data(**kwargs)
         context["order"] = get_or_set_order_session(self.request)
+        last_bill = Bill.objects.filter(user=74).latest('id')
+        dict = {
+            'id': last_bill.id,
+            'user_id': last_bill.user.id, 
+            'comprador_nombre': last_bill.comprador_nombre, 
+            'comprador_id': last_bill.comprador_id, 
+            'comprador_email': last_bill.comprador_email, 
+            'comprador_phone':   last_bill.comprador_phone,
+            'beneficiario_nombre': last_bill.beneficiario_nombre, 
+            'beneficiario_id': last_bill.beneficiario_id, 
+            'beneficiario_email': last_bill.beneficiario_email, 
+            'beneficiario_phone': last_bill.beneficiario_phone,
+            'billing_address_line_1': last_bill.address_line_1, 
+            'billing_address_line_2': last_bill.address_line_2, 
+            'billing_address_type': last_bill.address_type, 
+            'billing_city': last_bill.city, 
+            'billing_zip_code': last_bill.zip_code
+        }
+        form = BillForm(user_id=self.request.user.id, initial = dict)
+        print(last_bill.address_line_1)
+        context["form"] = form
+        print(context["form"])
         return context
    
 @has_role_decorator('admin')   

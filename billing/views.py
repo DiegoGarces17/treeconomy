@@ -280,11 +280,9 @@ class CreateSubscriptionView(APIView):
             print("llego 4")
             # Busca subscription Item o por el contrario la crea
             subidos= []
-            for item in items_existentes:
-                if item['price']["id"] == settings.STRIPE_FREE_PRICE:
-                    stripe.SubscriptionItem.delete(
-                        item['id'],
-                    )   
+            print(items_existentes)
+            print(mis_precios)
+            for item in items_existentes:  
                 if item['price']["id"] in mis_precios:
                     new_quantity = mis_cantidades[item['price']["id"]]
                     actual_quantity = item['quantity']
@@ -292,6 +290,10 @@ class CreateSubscriptionView(APIView):
                         item.id,
                         quantity= actual_quantity + new_quantity
                     )
+                    if item['price']["id"] == settings.STRIPE_FREE_PRICE:
+                        stripe.SubscriptionItem.delete(
+                            item['id'],
+                        )   
                     subidos.append(item['price']["id"])
             
             for k in subidos:
