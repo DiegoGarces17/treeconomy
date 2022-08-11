@@ -1,20 +1,174 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block title %}Home{% endblock %}
+{% load static %}
 
 {% block content %}
+
+<style>
+
+.site-section {
+    margin-top: 0px;
+}
+.site-section .card-contact {
+        padding: 15px;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        border-radius: 25px;
+        -webkit-box-shadow: 10px 10px 5px -1px rgb(0 0 0 / 5%);
+        box-shadow: 10px 10px 5px -1px rgb(0 0 0 / 5%);
+        background-color: #fff;
+}
+.site-section .card-contact a:hover {
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    -webkit-box-shadow: 0px 0px 10px 0px rgb(242 98 46);
+    box-shadow: 0px 0px 10px 0px rgb(242 98 46);
+}
+.site-section .card-contact a {
+    padding: 10px 25px;
+    border-radius: 25px;
+    background-color: #f2622e;
+    color: #fff !important;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    text-decoration: none;
+    font-size: 20px;
+    /* display: block; */
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+    width: 60%;
+}
+.formulario-section h3 {
+    font-size: 20px;
+    font-family: "comfortaa-light";
+    color: #035941;
+}
+.formulario-section h2 {
+    font-size: 83px;
+    font-family: "comfortaa-bold";
+    color: #035941;
+}
+
+@media only screen and (max-width: 992px){
+    .formulario-section h2 {
+    font-size: 45px;
+}
+
+}
+
+.formulario-section p {
+    font-size: 16px;
+    font-family: "lato-regular";
+    color: #035941;
+    margin: 35px 0;
+}
+.formulario-section a {
+    padding: 10px 25px;
+    border-radius: 25px;
+    background-color: #035941;
+    color: #fff !important;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.card-contact p {
+    font-family: "lato-regular";
+    font-size: 16px;
+    color: #012623;
+    text-align: center;
+    width: 70%;
+    margin: 10% auto;
+}
+.card-contact img {
+    display: block;
+    margin: 0 auto;
+}
+.form-style input[type="submit"] {
+    padding: 10px 25px;
+    border-radius: 25px;
+    background-color: #f2622e;
+    color: #fff !important;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    text-decoration: none;
+    font-size: 20px;
+    /* display: block; */
+    text-align: center;
+    display: block;
+    border-color: transparent;
+    
+}
+.form-style input[type="submit"]:hover {
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    -webkit-box-shadow: 0px 0px 10px 0px rgb(242 98 46);
+    box-shadow: 0px 0px 10px 0px rgb(242 98 46);
+}
+
+</style>
+
 <div class="site-section">
     <div class="row justify-content-center">
-        <div class="col-md-7">
-            <h2 class="h3 mb-3  text-black">Contáctanos</h2>
-        </div>
-        <div class="col-md-7">
-            <form method="POST">
-                {% csrf_token %}
-                {{ form|crispy}}
-                <input type="submit" class="btn btn-primary btn-block" value="Submit me" />
-            </form>
-        </div>
+        <div class="container">
+            <div class="row d-flex align-items-center">
+                <div class="col-xl-4 col-sm-16">
+                    <div class="card-contact">
+                                                <img src="{% static 'img/image/celugrand.png' %}" alt="">
+                                            <p>Chatea con uno de nuestros asesores de inversión..</p>
+                        <a href="https://web.whatsapp.com/send?phone=12027666468">Escribenos</a>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-sm-16">
+                    <div class="card-contact">
+                                                <img src="{% static 'img/image/parejapregunta.png' %}" alt="">
+                                            <p>La inversión sostenible puede ser abrumadora, vea lo que otros han preguntado antes</p>
+                        <a href="https://treeconomy.com.co/en/faqs/">Mira otros</a>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-sm-16">
+                    <div class="card-contact">
+                                                <img src="{% static 'img/image/sentado.png' %}" alt="">
+                                            <p>Algunos de nuestros artículos están hechos para resolver algunas de sus preguntas, ¡échales un vistazo!</p>
+                        <a href="https://treeconomy.com.co/en/news/">Ver noticias</a>
+                    </div>
+                </div>
+            </div>
+        </div>      
     </div>
 </div>
+<br>
+<br>
+<section class="formulario-section">
+  
+    <div class="container">
+        <div class="row d-flex align-items-center">
+            <div class="col-md-6 col-sm-16">
+            <h3>¿Todavía tienes preguntas?</h3>
+            <h2>Charlemos</h2>
+            <p>Hola Treeconomy Investor, Nuestro equipo de asesores de inversión siempre está aquí para ayudarlo, háganos saber cualquier pregunta que pueda tener y nos pondremos en contacto en las próximas horas.</p>
+            <a href="#">+1(202)766 6468</a>
+                                <img src="{% static 'img/image/imgcontac.png' %}" alt="">
+            </div>
+            <div class="col-md-6 col-sm-16">
+            <form class="form-style" method="POST">
+                {% csrf_token %}
+                {{ form|crispy}}
+                <br>
+                <br>
+                <input type="submit" value="Enviar" />
+            </form>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
 {% endblock %}

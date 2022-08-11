@@ -67,17 +67,22 @@ class ProfileEditForm(forms.ModelForm):
             visible.field.widget.attrs['class'] = 'form-control'
 
 class ContactForm(forms.Form):
-    name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
-        'placeholder': "Name"
+    
+    name = forms.CharField(label="Nombre",  max_length=100, widget=forms.TextInput(attrs={
+
+        'placeholder': "Nombre"
+        
     }))    
-    email = forms.EmailField(widget=forms.TextInput(attrs={
-        'placeholder': "Email"
+    email = forms.EmailField(label="Correo", widget=forms.TextInput(attrs={
+        'placeholder': "Correo"
     }))
-    phone = PhoneNumberField(widget=forms.TextInput(attrs={
-        'placeholder': "Phone"
+    phone = PhoneNumberField(label="Telefono", widget=forms.TextInput(attrs={
+        'placeholder': "Telefono"
     }))  
-    message = forms.CharField(widget=forms.TextInput(attrs={
-        'placeholder': "Message"
+    message = forms.CharField(label="Mensaje", widget=forms.TextInput(attrs={
+        
+        'placeholder': "Escribenos"
     }))
+    
     
 
