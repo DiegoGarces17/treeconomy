@@ -27,7 +27,28 @@
             <div class="row">
                 <div class="col-md-6 mb-md-0">
                     <h2 class="h3 mb-3 text-black text-center">Detalles de la factura</h2>
+                    <p style="font-size: 12px">Información guardada de tu última orden de compra, puedes editar o llenarlo si es tu primera vez</p>
                     <hr />
+                    <!-- Button trigger modal -->
+<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    **¿Quién es el tercero de confianza?
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Tercero de confianza</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Al invertir en nuestros árboles se crea un contrato con tu información y Treeconomy Inc.
+          El tercero de confianza es la persona a quién le cedes tus árboles en caso de que algo te ocurra.
+        </div>
+      </div>
+    </div>
+  </div>
                     <div class="p-2 p-lg-2">
                     {{ form|crispy }}
                     </div>

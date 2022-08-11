@@ -133,7 +133,12 @@ class ProjectByInvestor(models.Model):
     def n_trees(self):
         return self.n_trees_subscription + self.n_trees_one_payment
 
-
+    def inversion(self):
+        inversion_s = self.project.price_subscription.price * self.n_trees_subscription
+        inversion_o = self.project.price_onepayment.price * self.n_trees_one_payment
+        total = inversion_s + inversion_o
+        return total
+        
     def __str__(self):
         return str(self.pk) + "_" + self.investor.username + "_" + self.project.name
 

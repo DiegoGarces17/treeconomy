@@ -158,7 +158,11 @@ def edit(request):
 
 @login_required
 def profile(request):
-    return render(request,'account/profile.html', {'user': request.user})
+    pbi = ProjectByInvestor.objects.filter(investor= request.user)
+    total = sum(list(map(lambda x: x.n_trees(), pbi )))
+    inversion_int =  sum(list(map(lambda x: x.inversion(), pbi )))
+    inversion = "{:.2f}".format(int(inversion_int or 0) /100)
+    return render(request,'account/profile.html', {'user': request.user, 'total': total, 'inversion': inversion})
 
 
     
