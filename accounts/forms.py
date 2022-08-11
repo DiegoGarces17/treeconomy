@@ -68,7 +68,7 @@ class ProfileEditForm(forms.ModelForm):
 
 class ContactForm(forms.Form):
     
-    name = forms.CharField(label="Nombre",  max_length=1, widget=forms.TextInput(attrs={
+    name = forms.CharField(label="Nombre",  max_length=100, widget=forms.TextInput(attrs={
 
         'placeholder': "Nombre"
         
