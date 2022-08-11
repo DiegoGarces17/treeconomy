@@ -171,7 +171,7 @@
             <div class="row">
               <div class="col-6">
                 <h3 class="dark-color my-3">{{ user.first_name }} {{ user.last_name }}</h3>
-                <h6 class="theme-color lead">Investor</h6>
+                <h6 class="theme-color lead">Inversor</h6>
               </div>
               <div class="col-6">
                 <a name="" id="" class="btn btn-primary profile-button my-3" href="{% url 'edit' %}" role="button">Editar perfil</a>
@@ -194,8 +194,8 @@
                   <div class="row">
                     <div class="col-6 col-lg-6">
                         <div class="count-data text-center">
-                            <h6 class="count h2" data-to="500" data-speed="500">500</h6>
-                            <p class="m-0px font-w-600">Árboles ganados</p>
+                            <h6 class="count h2" data-to="500" data-speed="500">{{total}}</h6>
+                            <p class="m-0px font-w-600">Árboles</p>
                         </div>
                     </div>
                     <div class="col-6 col-lg-6">
@@ -208,8 +208,8 @@
                   <div class="row">
                     <div class="col-6 col-lg-6">
                         <div class="count-data text-center">
-                            <h6 class="count h2" data-to="850" data-speed="850">$850</h6>
-                            <p class="m-0px font-w-600">Inversion</p>
+                            <h6 class="count h2" data-to="850" data-speed="850">${{inversion}}</h6>
+                            <p class="m-0px font-w-600">Inversión</p>
                         </div>
                     </div>
                     <div class="col-6 col-lg-6">
