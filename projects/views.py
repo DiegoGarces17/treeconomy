@@ -140,7 +140,7 @@ class FacturacionView(generic.FormView):
     def get_context_data(self, *args, **kwargs):
         context = super(FacturacionView, self).get_context_data(**kwargs)
         context["order"] = get_or_set_order_session(self.request)
-        last_bill = Bill.objects.filter(user=74).latest('id')
+        last_bill = Bill.objects.filter(user=self.request.user.id).latest('id')
         dict = {
             'id': last_bill.id,
             'user_id': last_bill.user.id, 
