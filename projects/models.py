@@ -21,6 +21,7 @@ TREES_PER_HECTARE = 500
 CO2_CONSUMPTION_PER_HECTARE_PER_YEAR = 35000
 CO2_CONSUMPTION_PER_TREE_PER_YEAR = (CO2_CONSUMPTION_PER_HECTARE_PER_YEAR / TREES_PER_HECTARE)
 CO2_CONSUMPTION_PER_TREE_PER_DAY = (CO2_CONSUMPTION_PER_TREE_PER_YEAR / DAYS_PER_YEAR)
+RENTABILIDAD_BASE = 0.094
 
 class Bill(models.Model):
     ADDRESS_CHOICES= (
@@ -218,10 +219,13 @@ class Order(models.Model):
         impuestos = 0
         total =  subtotal - discounts + impuestos
         return total
+    
     def get_total(self):
         total = self.get_raw_total()
         return "{:.2f}".format(int(total or 0) /100)
   
+    
+        
               
 def pre_save_project_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
