@@ -18,7 +18,7 @@ class ProjectListView(generic.ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ProjectListView, self).get_context_data(*args, **kwargs)
-        context["name"] = 'List of all active projects'
+        context["name"] = 'Proyectos'
         return context
 
 class ProjectDetailListView(generic.FormView):
@@ -32,6 +32,7 @@ class ProjectDetailListView(generic.FormView):
     def get_context_data(self, *args, **kwargs):
         context = super(ProjectDetailListView, self).get_context_data(*args, **kwargs)
         context["project"] = self.get_object()
+        context["activo"] = self.get_object().active
         context["order"] = get_or_set_order_session(self.request)
         return context
     

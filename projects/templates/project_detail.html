@@ -200,6 +200,7 @@
               </div>
             </div>
           </div>
+          {% if activo %}
           <form method="POST">
            <div class="row">
              <div class="col col-md-auto col-sm-6">
@@ -251,6 +252,11 @@
           <button type="submit" class="btn btn-sm btn-primary buy-now">Añadir al carrito</button>
 
           </form>
+        {% else %}
+          <div class="alert alert-danger" role="alert">
+            Este proyecto se encuentra cerrado para invertir
+          </div>
+        {% endif %}
        </div>
       </div>
     </div>

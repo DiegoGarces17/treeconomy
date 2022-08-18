@@ -64,7 +64,7 @@ class ProjectManager(models.Manager):
         return ProjectQuerySet(self.model, using=self._db)
     
     def all(self):
-        return self.get_queryset().active()
+        return self.get_queryset()
     
     def get_by_id(self, id):
         qs = self.get_queryset().filter(pk=id) # Product.objects == self.get_queryset()
@@ -73,7 +73,7 @@ class ProjectManager(models.Manager):
         return None
     
     def search(self, query):
-        return self.get_queryset().active().search(query)
+        return self.get_queryset().search(query)
 
 class Pricing(models.Model):
     name= models.CharField(max_length=100)

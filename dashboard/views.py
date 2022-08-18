@@ -23,7 +23,7 @@ def dashboard(request):
 def invest_api(request):
     usuario = request.user
     pbi= ProjectByInvestor.objects.filter(investor=usuario)
-    projects_id= list(map(lambda x: int(x.project_id), pbi))
+    projects_id= list(map(lambda x: x.project_id, pbi))
     api = {}
     
     rentabilidad= 0.0094
