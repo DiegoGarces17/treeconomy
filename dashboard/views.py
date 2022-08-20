@@ -35,7 +35,7 @@ def invest_api(request):
         total_trees = 0
         cap = 0
         cap_tot = 0
-        
+        n= 0
         while fecha < hoy:
             fechafin = fecha + relativedelta(months=1)
             ordenes = Order.objects.filter(ordered_date__gte=fecha, ordered_date__lt= fechafin, user=usuario)
@@ -52,16 +52,17 @@ def invest_api(request):
             price = Project.objects.get(pk=project_id).price_onepayment.price
             valor_invertido = total_trees * price
             vi = "{:.2f}".format(int(valor_invertido or 0) /100)
-            
-            utilidad = rentabilidad * cap
+            rent_acu = ((rentabilidad+1)**n)-1
+            utilidad = rent_acu * cap
             rent = "{:.2f}".format(rentabilidad* 100)
-            util_str = "{:.2f}".format(utilidad)
+            util_str = "{:.4f}".format(utilidad)
             cap_tot = utilidad + (valor_invertido/100)
-            cap_tot__str = "{:.2f}".format(cap_tot)
+            cap_tot__str = "{:.3f}".format(cap_tot)
             inversion = {'new_trees': new_trees, 'total_trees': total_trees, 'valor_invertido': vi, 'rentabilidad': rent, 'utilidad': util_str, 'capital': cap_tot__str}
             api_fecha[str(fecha)] = inversion
             fecha =fecha + relativedelta(months=1)
             cap = cap_tot
+            n += 1
         api[Project.objects.get(pk=project_id).name] = api_fecha
     return JsonResponse(api)
 
