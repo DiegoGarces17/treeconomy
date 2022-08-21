@@ -12,22 +12,158 @@
 <style>
 
   .avatars {
-    color: #fff;
-    display: inline-flex;
-    align-items: center;
+   width: 40px;
+   height: 40px;
+   border-radius: 50%;
+   background: #012623; 
+   display: flex;
+   justify-content: center;
+   align-items: center;    
+  }
+  .borde1{
+    width: 58px;
+    height: 58px;
+    background-color: transparent;
+    border-radius: 50%;
+    border: 1px solid #F2622E; 
+    display: flex;
     justify-content: center;
-    font-size: 1rem;
-    border-radius: 3rem;
-    width: 3rem;
-    height: 3rem;
-    box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.2);
+    align-items: center; 
+    margin-bottom: 10px; 
+  }
+  .avatars-off{
+    width: 40px;
+   height: 40px;
+   border-radius: 50%;
+   background: #F5F6F7; 
+   display: flex;
+  justify-content: center;
+  align-items: center;
+
     
   }
-  .avt{
-    font-size: 0.6125rem;
-    white-space: nowrap;
+  .borde2{
+    width: 58px;
+    height: 58px;
+    background-color: transparent;
+    border-radius: 50%;
+    border: 1px solid #F5F6F7; 
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    margin-bottom: 10px;
+  }  
+ .icobarra img{
+    height: 20px;
+    width: 20px;
+ }
+ .posicion{
+  display: flex;
+  justify-content: end;
+  align-items: end;
+  
+ }
+ @media (max-width:768px){
+  .posicion{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0em 2em;
+  margin-top: 7px;
+  }
+  .avatars{
+    margin: 4px; 
+  }
+  .avatars-off{
+    margin: 4px; 
+  }
+  .item1{
+    margin-right: 12px;
+  }
+  .item2{
+    margin-left: 8px;
+  }
+  .item3{
+    margin-left: 27px;
+
+  }
+  .item4{
+    margin-left: 48px;
+  }
+  .co2 h5{
+  font-size: 10px;
+  margin-left: -11px;
+  }
+  .rectanguloup{
+    border-radius: 10%;
+    background-color: #F5F8FA;
+    padding: 0.5rem;
+    padding: 7px;
+    height: 65px;
+    margin-top: 7px;
   }
   
+}
+.co2 h5{
+  color: #013F30;
+}
+
+.progress-bar { 
+    background: #018669;
+}
+.conten-punta{
+  height: 2px;
+  width: 2px;
+}
+.punto1{
+  border-radius: 50%;
+  background-color: #F2622E;
+  width: 6px;
+  height: 6px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -4px 0 0 -31px;
+}
+.conten-punt{
+  position: relative;
+}
+h5{
+  font-size: 16px;
+}
+.burbuja{
+  position:relative;  
+    color: #5F5F5F;
+    background: #FFF4D6;
+  /* css3 */
+  -webkit-border-radius:10px;
+  -moz-border-radius:10px;
+  border-radius:10px;
+  padding: 1rem;
+  width: 177px;
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+.burbuja::after{
+  content:"";
+  position:absolute;
+  top:-25px;
+  left:70px;
+  border:15px solid transparent;
+  border-bottom-color:#FFF4D6;
+  /* reduce the damage in FF3.0 */
+  display:block;
+  width:0;
+}
+.contenbur{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.colorletra{
+  color: #F2622E;
+}
+
 
 </style>
     {% include "includes/scripts.html" %}
@@ -132,9 +268,8 @@
             <!-- Card body -->
             <div class="card-body h-auto">
               <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Co2 capturado</h5>
-                  <span class="h2 font-weight-bold mb-0">49,65 kg de CO2</span>
+                <div class="col co2">
+                  <h5>Indica tú progreso a equivalencia de Co2 capturado a nivel vehicular, sigue avanzando!</h5>
                 </div>
                   <div class="col-auto">
                     <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
@@ -142,33 +277,74 @@
                     </div>
               </div>
               <div class="row">
-
-                  <strong>Indica tú progreso a equivalencia de Co2 capturado a nivel vehicular, sigue avanzando!</strong><br>
-                  <div class="progress">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated p-3 mb-2 bg-success text-white" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 45%;"></div>
-                  </div>
-                    <div class="row align-items-center justify-content-md-start">
-                      <div class="col text-end"><img src={% static "img/image/carronew.png" %} class="avatars"></div>
-                      <div class="col text-end"><img src={% static "img/image/camionew.png" %} class="avatars"></i></div>
-                      <div class="col text-end"><img src={% static "img/image/avionnew.png" %} class="avatars"></i></div>
-                      <div class="col text-end"><img src={% static "img/image/cohetenew.png" %} class="avatars"></i></div>  
+                  
+                    <div class="row row-cols-4 icobarra">
+                      <div class="col">
+                        <div class="posicion">
+                          <div class="item1">
+                            <div class="borde1">
+                            <div class="avatars"><img src="{% static 'img/image/carroico.svg' %}" alt=""></div>
+                            </div>  
+                          </div>
+                      </div>
+                      </div>
+                      <div class="col">
+                        <div class="posicion">
+                          <div class="item2">
+                            <div class="borde1">
+                            <div class="avatars"><img src="{% static 'img/image/busico.svg' %}" alt=""></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="posicion">
+                          <div class="item3">
+                           <div class="borde2">
+                            <div class="avatars-off"><img src="{% static 'img/image/avionico.svg' %}" alt=""></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="posicion">
+                          <div class="item4">
+                            <div class="borde2">
+                            <div class="avatars-off"><img src="{% static 'img/image/cohetico.svg' %}" alt=""></div>
+                           </div>
+                          </div>
+                        </div> 
+                      </div> 
+                    
                     </div>
-                    <br>
-                    <br>
+                    
+                    <div class="progress">
+                        
+                      <div class="progress-bar" style="width:50%;">
+                          <span class="progress-bar-text"></span>
+                      </div>
+                  </div>
+                  <div class="contenbur">
+                  <div class="burbuja"><span>Lograste reducir lo quivalente en <strong>CO2</strong> que emite un <strong>Camión</strong>, !genial!</span></div>
+                </div>
+                <br>
                     <div class="row">
-                      <div><span>Lograste reducir lo quivalente en co2 que emite un <strong>Camión</strong>, !genial!</span></div>
+                      <strong>CO2 Capturado</strong>
+                      <strong class="colorletra">49,65 kg de CO2</strong>
                       <div><strong>Periodo de compensación de CO2</strong>:
-                        <span>0 años/10 años</span></div>
+                        <span class="colorletra">0 años/10 años</span></div>
                         <div><strong>Remuneración media anual</strong>:
-                          <span>90.00Kg</span></div>
+                          <span class="colorletra">90.00Kg</span></div>
                         </div>
                     
 
                 </div>
-                <p class="mt-3 mb-0 text-sm">
+                <div class="rectanguloup">
+                  <p class="mt-3 mb-0 text-sm">
                   <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
                   <span class="text-nowrap">Desde el mes pasado</span>
-                </p>
+                  </p>
+              </div>
               </div>
               
             </div>
@@ -306,10 +482,11 @@
                     <i class="material-icons position-absolute end-0">file_download</i></a>            
                   <a href="{% static "account/css/terminoses.pdf" %}" class="btn border-light boton-documento avt" type="button" target="_blank">Certificado ICA
                     <i class="material-icons position-absolute end-0">file_download</i></a>
-                  <a href="{% static "account/css/terminoses.pdf" %}" class="btn border-light boton-documento avt" type="button" target="_blank">Arrendamiento tierras 
+                  <a href="{% static "account/css/contratoarrendamiento.pdf" %}" class="btn border-light boton-documento avt" type="button" target="_blank">Arrendamiento tierras 
                     <i class="material-icons position-absolute end-0">file_download</i></a>
-                  <a href="{% static "account/css/terminoses.pdf" %}" class="btn border-light boton-documento avt" type="button" target="_blank">Documentos
+                  <a href="{% static "account/css/PEMFTREECONOMYDILUVIO.pdf" %}" class="btn border-light text-star boton-documento avt" type="button" target="_blank">Plan Establec. Forestal
                     <i class="material-icons position-absolute end-0">file_download</i></a>   
+                    
                 </div>  
               </div>
             </div>

@@ -17,19 +17,6 @@
     opacity: 1;
   }
 
-  .titulo-card {
-    width: 124px;
-    height: 41px;
-    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) 18px/21px Lato;
-    letter-spacing: var(--unnamed-character-spacing-0);
-    color: var(--unnamed-color-035941);
-    text-align: left;
-    font: normal normal normal 18px/21px Lato;
-    letter-spacing: 0px;
-    color: #035941;
-    opacity: 1;
-  }
-
   .boton-fav {
     border-radius: 60px;
     position: absolute;
@@ -38,56 +25,10 @@
     height: 40px;
     width: 40px;
   }
-  .button {
+  .boton-fav:hover{
+    background-image: ;
+  }
 
-    margin: auto;
-    display: inline-block;
-    background: #F2622E 0% 0% no-repeat padding-box;
-    color: white;
-    border: 0px solid grey;
- 
-
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    vertical-align: middle;
-    
-}
-
-.button:hover {
-  background-color: #F2622E;
-  color: white !important;
-}
-
-.button:active i{
-    /*for push effect on click*/
-    transform: translate(-45%, -45%);
-}
-
-.button i {
-  /*horizontal and vertical centering*/
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-p {
-  letter-spacing: var(--unnamed-character-spacing-0);
-  color: var(--unnamed-color-5f5f5f);
-  text-align: left;
-  font: normal normal normal 12px/15px Lato;
-  letter-spacing: 0px;
- 
-}
-
-p.verde {
-  color: #5F5F5F;
-}
-span.naranja {
-  color: #EE6635;
-}
 .tarjetas {
   max-width: 1200px;
   margin: 0 auto;
@@ -95,334 +36,218 @@ span.naranja {
   grid-gap: 1rem;
   
 }
-.tarjeta{
-  padding: 1rem;
-}
-
-
 .tarjeta {
   position: relative;
-  width: 350px;
-  height: 410px;
+  width: 380px;
+  height: 274px;
   background: #012623;
+  /* background-image: url({% static 'img/image/fondotarjeta.jpg' %}); stilo imagenfondo */
   border-radius: 20px;
   overflow: hidden;
-  
+  text-align: center;
   box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
 }
 
-.tarjeta:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  
-   background-color: #13542d;
-  clip-path: circle(150px at 80% 20%);
-  transition: 0.5s ease-in-out;
-}
-
-.tarjeta:hover:before {
-  clip-path: circle(200px at 50% -20%);
-}
-
-.tarjeta:after {
-  
-  position: absolute;
-  top: 30%;
-  left: -20%;
-  font-size: 12em;
-  font-weight: 800;
-  font-style: italic;
-  color: rgba(255, 255, 255, 0.04);
-
-}
-
-.tarjeta .imgBx {
-  position: absolute;
-  top: 45%;
-  left: 30%;
-  transform: translateY(-50%);
-  width: 50%;
-  height: 50%;
-  transition: .5s;
-  
-}
-
-.tarjeta:hover .imgBx {
-  
-  transform: translate(-95%, -95%);
-  width: 30%;
-  height: 30%;
-  /* bug  */
-}
-
-.tarjeta .imgBx img {
-  position: absolute;
-  top: 22%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 270px;
-  circle(50px at 100% -20%);
-}
-
-.tarjeta .contentBx {
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  height: 100px;
-  text-align: center;
-  transition: 1s;
-}
-
-.tarjeta:hover .contentBx {
-  top: 30%;
-  height: 290px;
-}
-
-.tarjeta .contentBx h2 {
-  position: relative;
-  font-weight: 600;
-  letter-spacing: 1px;
-  color: #fff;
-}
 h5 {
-
-  color: #fff;
+  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-16)/20px Lato;
+  letter-spacing: var(--unnamed-character-spacing-0);
+  text-align: left;
+  letter-spacing: 0px;
+  color: #FFFFFF;
 }
-
-.tarjeta .contentBx .size,
-.tarjeta .contentBx .color {
+.titulo1{
+  color: #FFFFFF;
+  font-size: 22px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 8px 20px;
-  transition: .5s;
-  opacity: 0;
-  visibility: hidden;
-}
-
-.tarjeta:hover .contentBx .size {
   opacity: 1;
-  visibility: visible;
-  transition-delay: .5s;
+  margin-top: 10px;
 }
 
-.tarjeta:hover .contentBx .color {
-  opacity: 1;
-  visibility: visible;
-  transition-delay: .6s;
-}
 
-.tarjeta .contentBx .size h3,
-.tarjeta .contentBx .color h3 {
-  color: white;
-  font-weight: 300;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-right: 10px;
-}
-
-.tarjeta .contentBx .size span {
-  width: 26px;
-  height: 26px;
-  text-align: center;
-  line-height: 26px;
-  font-size: 14px;
-  display: inline-block;
-  color: #111;
-  background: #fff;
-  margin: 0 5px;
-  transition: .5s;
-  color: #111;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.tarjeta .contentBx .size span:hover {  /* other bug */
-  background: #B90000;
-}
-
-.tarjeta .contentBx .color span {
-  width: 20px;
-  height: 20px;
-  background: #ff0;
-  border-radius: 50%;
-  margin: 0 5px;
-  cursor: pointer;
-}
-
-.tarjeta .contentBx .color span:nth-child(2) {
-   background: #1BBFE9;
-}
-
-.tarjeta .contentBx .color span:nth-child(3) {
-   background: #1B2FE9;
-}
-
-.tarjeta .contentBx .color span:nth-child(4) {
-   background: #080481;
-}
-
-.tarjeta .contentBx a {
-  text-decoration: none;
-  padding: 10px;
-  font-weight: 200;
-  font-size: 10px;
-  color: #ffffff;
-  background-color: #f2622e;
-  float: left;
-  box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
-  border-radius: 24px;
-  font-family: "comfortaa-bold" !important;
-}
-
-.tarjeta:hover .contentBx a {
-  opacity: 1;
-  transform: translateY(0px);
-  transition-delay: .7s;
-} 
-
-@media(hover){
-  .tarjeta:hover .contentBx .size {
-    opacity: 1;
-    visibility: visible;
-    transition-delay: .5s;
-  }
-  
-  .tarjeta:hover .contentBx .color {
-    opacity: 1;
-    visibility: visible;
-    transition-delay: .6s;
-  }
-  .tarjeta:hover .contentBx {
-    top: 30%;
-    height: 290px;
-  }
-  .tarjeta:hover .imgBx {
-  
-    transform: translate(-95%, -95%);
-    width: 30%;
-    height: 30%;
-    /* bug  */
-  }
-  
-}
  
 @media (min-width: 600px) {
    .tarjetas { grid-template-columns: repeat(2, 1fr); }
  }
 
 @media (min-width: 900px){
-   .tarjetas {grid-template-columns: repeat(3, 1fr); }
+   .tarjetas {grid-template-columns: repeat(3, 0fr); }
  }
+ span{
+   color: #FFFFFF;
+ }
+ .btn-invert{
+  font-size: 14px;
+  text-align: center;
+  margin-top: 12px;
+  }
 
- .boton_per{
-  text-decoration: none;
-  padding: 10px;
-  font-weight: 200;
-  font-size: 10px;
-  color: #ffffff;
-  background-color: #f2622e;
-  float: left;
-  box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
-  border-radius: 24px;
-  font-family: "comfortaa-bold";
-}
-
-.move{
-  position: absolute;
-}
-.letra_color{
-  color: white;
-  font-size: 1rem;
-}
-.vertical-center {
-  -ms-transform: translateY(50%);
-  transform: translateY(50%);
-}
-
-.editables {
+a:hover{
+   color: #FFFFFF;
+ }
+ .editables {
   background-color: #008CBA !important;
   margin: 1em;
+  border-radius: 25px;
+  color: #fff;
+  font-size: 10px;
 }
+.cover img{
+  margin: 8px;
+  width: 168px;
+  height: 184px;
+  border-radius: 10px;
+  box-shadow: 0px 5px 10px transparent;
+}
+.cover{
+  object-fit: cover;
+}
+h1{
+  font-size: 26px;
+}
+h3{
+  
+  font-size: 14px;
+  display: flex;
+  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-16)/20px Lato;
+  letter-spacing: var(--unnamed-character-spacing-0);
+
+  color: var(--unnamed-color-f9e09e);
+  text-align: left;
+  letter-spacing: 0px;
+  color: #F9E09E;
+  opacity: 1;
+}
+h4{
+  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-16)/20px Lato;
+  letter-spacing: var(--unnamed-character-spacing-0);
+  font: normal normal normal 16px/24px Lato;
+  color: var(--white);
+  text-align: left;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+  opacity: 1;
+}
+strong{
+  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-16)/20px Lato;
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--white);
+  letter-spacing: 0px;
+  color: #FFFFFF;
+}
+.valores span{
+  letter-spacing: var(--unnamed-character-spacing-0);
+  letter-spacing: 0px;
+  opacity: 1;
+  color: #EE6635;
+}
+
+.textbajo span{
+
+  color: #EE6635;
+  
+
+}
+.valores{
+ text-align: left;
+}
+
+.ovalo{
+  border-radius: 25px;
+  color: #013F30;
+  background-color: #F9E09E;
+  font-size: small;
+  width: 116px;
+  position: absolute;
+    top: 180px;
+    left: 32px;
+    grid-template-rows: 40px 4em 40px;
+}
+.alt{
+  height: 218px;
+}
+.textbajo{
+  text-align: left;
+  margin-left: 20px;
+}
+
 
 </style>
 
+   <h1>Proyectos</h1>
   <div class="row">
      <div class="col-6">
       {% load permission_tags %}
       {% if user|can:'manage_a_project' %}
-        <a name="" id="" class="btn btn-success editables" href="{% url 'crear' %}" role="button"> Create a project</a>
+        <a name="" id="" class="btn editables" href="{% url 'crear' %}" role="button"> Crear un Proyecto</a>
       {% endif %}
+      <br>
       
     </div>
     
   </div>
   
- 
+  
   {% if project_list %}
   <div class="tarjetas">
     {% for project in project_list %}
       <div class="tarjeta card text-left">
         
-        <div class="imgBx"">
-          <img src="{{project.image.url}}" class="img-fluid"  style="border-radius: 10px; box-shadow: 0px 5px 10px #00000017;" alt="tree">
-        </div>
-        
-        <div class="col-6 mb-4">
-          <div id="mainToolbar">
-            <a class="button boton-fav" id="shareProject" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" >
-                <i class="material-icons">ios_share</i>
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="shareProject">
-              {% with request.build_absolute_uri|add:project.name as varname %}
-                <li><a class="dropdown-item shareButton copy-btn" data-project={{ varname }}>Copy to Clipboard</a></li>
-                              
-                {% load social_share %}
-                <li>{% post_to_whatsapp varname "Share via WhatsApp" "dropdown-item" %}</li>
-                <li>{% post_to_twitter "Invest in this project: {{project.name}}. Check it out!" varname "Post to Twitter" "dropdown-item" %}</li>
-                <li>{% post_to_facebook varname "Post to Facebook" "dropdown-item" %}</li>
-              {% endwith %}
-            </ul>
+     <div class="row alt">
+      <div class="col-6 mb-4">
+          <div class="cover">
+            <img src="{{project.image.url}}">
+            <div class="ovalo">Edad 9-10</div>   
           </div>
         </div>
-      <div class="contentBx">
-          <h2>{{ project.name }}</h2>
-          {% load permission_tags %}
-          {% if user|can:'manage_a_project' %}
-            <a class="editables" href="{% url 'editar' project.pk  %}"role="button">Editar</a>
-            <a class="editables" href="{% url 'eliminar' project.pk %}" role="button">Eliminar</a>
-          {% endif %}
-          <h5>{{ project.tree_type }}</h5>
-          <br>
-          <div>
-            <span class="letra_color">Vendedor: Treeconomy Inc. </span>    
-          </div>
-          <br>
+      <div class="col-6">
+        <div class="contentBx">
           <div class="row">
-            <div class="col-6">
-              <a class="move btn" href="{{ project.get_absolute_url }}">Invertir Aquí</a>
+            <div class="col-8">
+              <h2 class="titulo1">{{ project.name }}</h2>
+              <h3>{{project.tree_type}}</h3>
             </div>
             <div class="col-6">
-              <div class="vertical-center">
-              <h5 class="letra_color">USD: {{ project.get_price}}</h5>
-             
+              <div id="mainToolbar">
+                <a class="button boton-fav" id="shareProject" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" >
+                    <i class="material-icons">share</i>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="shareProject">
+                  {% with request.build_absolute_uri|add:project.name as varname %}
+                    <li><a class="dropdown-item shareButton copy-btn" data-project={{ varname }}>Copy to Clipboard</a></li>
+                                  
+                    {% load social_share %}
+                    <li>{% post_to_whatsapp varname "Share via WhatsApp" "dropdown-item" %}</li>
+                    <li>{% post_to_twitter "Invest in this project: {{project.name}}. Check it out!" varname "Post to Twitter" "dropdown-item" %}</li>
+                    <li>{% post_to_facebook varname "Post to Facebook" "dropdown-item" %}</li>
+                  {% endwith %}
+                </ul>
               </div>
             </div>
           </div>
-          <br>
-          <br>
-          <div>
-            <span class="letra_color">Disponibles: {{project.trees_left}} </span>    
-          </div>
-
+          
+          {% load permission_tags %}
+          {% if user|can:'manage_a_project' %}
+            <a class="btn editables" href="{% url 'editar' project.pk  %}"role="button">Editar</a>
+            <a class="btn editables" href="{% url 'eliminar' project.pk %}" role="button">Eliminar</a>
+          {% endif %}
+              <div class="valores">
+              <div><strong>Rentabilidad: </strong><span>12% EA</span></div>
+              <div><strong>Árboles restantes: </strong><span>{{ project.trees_left}}</span></div>
+              <div><strong>Precio: </strong><span>USD {{ project.get_price}}</span> </div> 
+              </div>         
       </div>
-
+     </div>
+   </div>
+   <div class="row">
+    <div class="col-6 ">
+      <div class="textbajo"><strong>Usuario Propietario: </strong><span>Treeconomy Inc. </span> </div>
+      
     </div>
+    <div class="col-6">
+      <a class="button-plant btn-invert" href="{{ project.get_absolute_url }}">Invertir Aquí</a>
+    </div>
+ </div>
+</div>
     {% endfor %}
   </div>
 
