@@ -158,7 +158,7 @@ a { text-decoration: none;
   font-weight: 900 !important;
 }
 #menulat {
-  backgroud-color: #fff important;
+  background-color: #fff important;
 }
 
 .navega-abajo a{
@@ -212,30 +212,31 @@ a { text-decoration: none;
     <div class="container">
       <a class="navbar-brand" href="http  border-radius: 50%;s://treeconomy.com.co/product/melina/"><img
         src="https://treeconomy.com.co/wp-content/themes/Treeconomy/img/app/icons/Logo-Blanco.svg" alt=""></a>
-      
+     
       
       <div class=" navbar-collapse" id="navbarText">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <div class="d-none d-md-flex btn-group">
-            <a href="/" class="button-plant">¡Planta árboles ahora!</a>
+            <a href="/projects" class="button-plant">¡Planta árboles ahora!</a>
           </div>
           <div class="d-md-none">
-            <a class="button boton-invest" href="/">
+            <a class="button boton-invest" href="/projects">
               <i class="material-icons" >monetization_on</i>
             </a>
           </div>
          
         </ul>
-        <a href="{% url 'summary'%}" type="button" class="position-relative">
+        <div style="margin-top: 20px">
+          <a href="{% url 'summary'%}" type="button" class="position-relative">
           <i class="material-icons" style= "margin-right: 10px">shopping_cart</i>
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
             {{ request | cart_item_count }}
             <span class="visually-hidden">mensajes no leídos</span>
           </span>
-        </a>
+           </a>
         
-        <div class="mx-3">
-          <span class="user name-user">
+          
+          <span class="user name-user" style=margin-left:10px >
           {% if request.user.is_authenticated %}
             Hola 
             {% if request.user.first_name == '' %}
@@ -244,11 +245,11 @@ a { text-decoration: none;
               {{ request.user.first_name }}
             {% endif %}
           {% endif %}
-        </div>
-        <div class="mx-3 centering-all">
-          <span class="user name-user">
+        
+        
+          <span class="user name-user" style=margin-left:10px>
           {% if request.user.is_authenticated %}
-            <a class="enlace-naranja"  href="{% url "logout" %}">Salir</a>
+            
           {% else %}
             <a class="enlace-naranja"  href="{% url "login" %}">Iniciar Sesión</a>
           {% endif %}
@@ -263,7 +264,9 @@ a { text-decoration: none;
         <li><a href="/dashboard/invest"><i class="material-icons">auto_graph</i><span class="icon-text"></span>&nbsp;&nbsp;&nbsp;&nbsp;Tu inversión<span></a></li>
 
         <li><a href="{% url 'contact' %}"><i class="material-icons">contact_mail</i><span class="icon-text"></span>&nbsp;&nbsp;&nbsp;&nbsp;Contáctanos<span></a></li>
-       
+          {% if request.user.is_authenticated %}
+          <a href="{% url "logout" %}"><i class="material-icons">keyboard_backspace</i><span class="icon-text"></span>&nbsp;&nbsp;&nbsp;&nbsp;Salir<span></a>
+            {% endif %}
      </ul>
     </div>
   </nav>
@@ -275,7 +278,11 @@ a { text-decoration: none;
       <a href="/projects"><i class="material-icons">forest</i><span class="icon-text"></span>&nbsp;&nbsp;&nbsp;&nbsp;Proyectos</span></a><br>
       <a href="/dashboard/invest"><i class="material-icons">auto_graph</i><span class="icon-text"></span>&nbsp;&nbsp;&nbsp;&nbsp;Tu inversión</span></a><br>
       <a href="/billing/cartera"><i class="material-icons">monetization_on</i><span class="icon-text"></span>&nbsp;&nbsp;&nbsp;&nbsp;Cartera<span></a><br>
-      <a href="{% url 'contact' %}"><i class="material-icons">contact_mail</i><span class="icon-text"></span>&nbsp;&nbsp;&nbsp;&nbsp;Contáctanos<span></a>
+      <a href="{% url 'contact' %}"><i class="material-icons">contact_mail</i><span class="icon-text"></span>&nbsp;&nbsp;&nbsp;&nbsp;Contáctanos<span></a><br>
+        {% if request.user.is_authenticated %}
+      <a href="{% url "logout" %}"><i class="material-icons">keyboard_backspace</i><span class="icon-text"></span>&nbsp;&nbsp;&nbsp;&nbsp;Salir<span></a>
+        {% endif %}
+
   </div>
 
   <div id="main" class="main-content">
