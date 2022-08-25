@@ -12,7 +12,7 @@ urlpatterns = [
     path('crear', login_required(views.crear), name='crear'),
     path('editar/<str:pk>', login_required(views.editar), name='editar'),
     path('eliminar/<str:pk>', login_required(views.eliminar), name='eliminar'),
-    path('<slug>/', ProjectDetailListView.as_view(), name='project-detail'),
+    path('<slug>/', login_required(ProjectDetailListView.as_view()), name='project-detail'),
     path('increase-quantity-cart/<pk>/', 
          IncreaseQuantityCartView.as_view(), name='increase-quantity-cart'),
     path('decrease-quantity-cart/<pk>/', 
