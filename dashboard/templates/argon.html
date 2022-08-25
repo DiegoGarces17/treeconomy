@@ -163,9 +163,17 @@ h5{
 .colorletra{
   color: #F2622E;
 }
-
+.lineatorta{
+  margin: 20px 0px;
+}
+.cuadro_t1{
+ background-color:#018669;
+ height: 15px;
+ weight: 15px;
+}
 
 </style>
+<h1 style="font-size: 25px">Dashboard</h1>
     {% include "includes/scripts.html" %}
     <!-- Header -->
     <div class="header bg-primary pb-6">
@@ -396,6 +404,8 @@ h5{
           <div class="card bg-default">
             <div class="card-body">
               <h5 class="h3 text-verde mb-0">Ingresos totales generados</h5>
+              <hr class="lineatorta">
+              <div class="cuadro_t1"></div>
               <div class="box-chart-pie mt-5">
                 <canvas id="myChartPieDb" height="0" style="display: block; width: 0px; height: 0px;" width="0"></canvas>
               </div>

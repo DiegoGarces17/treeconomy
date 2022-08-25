@@ -7,6 +7,7 @@ from billing.utils import get_or_set_order_session
 from accounts import views 
 from accounts.models import User
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 class ProjectListView(generic.ListView):
@@ -21,7 +22,8 @@ class ProjectListView(generic.ListView):
         context["name"] = 'Proyectos'
         return context
 
-class ProjectDetailListView(generic.FormView):
+
+class ProjectDetailListView(LoginRequiredMixin, generic.FormView):
     model = Project
     template_name = 'project_detail.html'
     form_class = AddToCartForm
