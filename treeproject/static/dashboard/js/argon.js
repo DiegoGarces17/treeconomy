@@ -22,6 +22,69 @@
 //
 // Layout
 //
+console.log("argom");
+consultar_todos()
+function consultar_todos(){	
+	$.ajax({
+		type: 'GET',
+		url: "/dashboard/invest_api",
+		//data: {"nick_name": nick_name},
+		success: function (response) {
+			// if not valid user, alert the user
+			console.log(response)
+			proyects = Object.keys(response)
+			datos = response
+			proyects.forEach(function(element){
+				elem_low= element.toLowerCase()
+				inv = datos[element]
+				
+				datostable = ''
+				for(let k in inv){
+					datostable += '<tr><td>'+ k +'</td>'+
+					'<td>'+ inv[k]["new_trees"] +'</td>'+
+					'<td>'+ inv[k]["total_trees"] +'</td>' +
+					'<td>'+ '$' + inv[k]["valor_invertido"] +'</td>'+
+					'<td>'+ inv[k]["rentabilidad"] + '%' +'</td>'+
+					'<td>'+ '$' + inv[k]["utilidad"] +'</td>'+
+					'<td>'+ '$' + inv[k]["capital"] +'</td>'+
+					'</tr>'
+				}
+				document.getElementById('botones-proyectos').innerHTML += "<li class='nav-item mr-1'><a class='button-plant sc-project-button'type='button' onclick=actualiza_datos('"+element+"')>"+element+"</a></li>";
+				tabla = '<div class="tab-pane fade" id="'+elem_low+'" role="tabpanel" aria-labelledby="'+elem_low+'-tab">'+
+					'<table class="table align-items-center table-flush" id="tabla-inversion">' +
+						'<thead class="thead-light">'+
+							'<tr>'+
+							'<th scope="col">Fecha</th>'+
+							'<th scope="col">Árboles nuevos</th>'+
+							'<th scope="col">Árboles totales</th>'+
+							'<th scope="col">Inversión</th>'+
+							'<th scope="col">Rentabilidad</th>'+
+							'<th scope="col">Utilidad</th>'+
+							'<th scope="col">Capital</th>'+
+							'</tr>'+
+						'</thead>'+
+						'<tbody>'+
+								datostable 
+						'</tbody>'+
+						'</table>'+
+				'</div>'
+				//document.getElementById('nav-tabContent').innerHTML += tabla
+			})
+			if(!response){
+				alert("No fue posible consultar Datos");
+			}
+		},
+		error: function (response) {
+			console.log(response)
+		}
+	})
+}
+
+
+function actualiza_datos(proyecto){
+  debugger
+  
+}
 
 'use strict';
 
@@ -158,6 +221,8 @@ var Layout = (function() {
             $('#footer-main').addClass('footer-auto-bottom')
         }
     })
+
+	
 
 })();
 
@@ -386,8 +451,9 @@ var Charts = (function() {
 	// Update options
 	function updateOptions(elem) {
 		var options = elem.data('update');
-		var $target = $(elem.data('target'));
-		var $chart = $target.data('chart');
+		var $chart = $(elem.data('target'));
+		//var $chart = $target.data('chart');
+		debugger
 
 		// Parse options
 		parseOptions($chart, options);
@@ -829,7 +895,7 @@ var BarsChart = (function() {
 	//
 	// Variables
 	//
-
+    
 	var $chart = $('#chart-bars');
 
 
@@ -887,21 +953,16 @@ var SalesChart = (function() {
       type: 'line',
       options: {
         scales: {
-          yAxes: [{
-            gridLines: {
-              lineWidth: 1,
-              color: Charts.colors.gray[900],
-              zeroLineColor: Charts.colors.gray[900]
-            },
-            ticks: {
-              callback: function(value) {
-                if (!(value % 10)) {
-                  return '$' + value + 'k';
-                }
-              }
-            }
-          }]
-        },
+			yAxes: [{
+			  ticks: {
+				callback: function(value) {
+				  if (!(value % 10)) {
+					return '$' + value + 'k';
+				  }
+				}
+			  }
+			}]
+		  },
         tooltips: {
           callbacks: {
             label: function(item, data) {
@@ -922,14 +983,18 @@ var SalesChart = (function() {
       data: {
         labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         datasets: [{
-          label: 'Performance',
+          label: 'Capital',
           data: [10, 20, 40, 50, 55, 60, 70, 80, 85],
-		  borderColor: "#f2622e"
+		  borderColor: "#f2622e",
+		  backgroundColor: "#f2622e",
+		  fill: false
         },
 		{
-			label: 'Inversion inicial',
+			label: 'Inversión',
 			data: [10, 10, 10, 10, 10, 20, 30, 40, 50],
-			borderColor: "#018669"
+			borderColor: "#018669",
+			backgroundColor: "#018669", 
+			fill: false
 		  }	
 	]
       }
@@ -1135,3 +1200,4 @@ var PieChart = (function() {
 		init($piechart);
 	  }
 })();
+
