@@ -14,13 +14,9 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from pandas import json_normalize
 
-def dashboard(request):
-    projects = Project.objects.all()
-    return render(request, 'argon.html',{
-        'projects': projects,
-    })
 
-def invest_api(request):
+
+def invest_json(request):
     usuario = request.user
     pbi= ProjectByInvestor.objects.filter(investor=usuario)
     projects_id= list(map(lambda x: x.project_id, pbi))
@@ -64,7 +60,12 @@ def invest_api(request):
             cap = cap_tot
             n += 1
         api[Project.objects.get(pk=project_id).name] = api_fecha
-    return JsonResponse(api)
+    return api
+
+def invest_api(request):
+    datos = invest_json(request)
+    return JsonResponse(datos)
+
 
 def invest(request): 
     datos = invest_api(request)
@@ -74,4 +75,16 @@ def invest(request):
     return render(request, 'invest.html',{
             'table': "dat",
         })
-    
+
+def dashboard(request):
+    projects = Project.objects.all()
+    datos = invest_json(request)
+    ## Gráfca inversion
+    user_projects = Project.objects.filter(name__in= list(datos.keys()))
+    print(user_projects)
+    return render(request, 'argon.html',{
+        'projects': projects,
+        'user_projects': user_projects,
+        'datos': datos,
+        
+    })

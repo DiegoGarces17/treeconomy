@@ -23,12 +23,11 @@
 // Layout
 //
 console.log("argom");
-consultar_todos()
+//consultar_todos()
 function consultar_todos(){	
 	$.ajax({
 		type: 'GET',
 		url: "/dashboard/invest_api",
-		//data: {"nick_name": nick_name},
 		success: function (response) {
 			// if not valid user, alert the user
 			console.log(response)
@@ -80,11 +79,6 @@ function consultar_todos(){
 	})
 }
 
-
-function actualiza_datos(proyecto){
-  debugger
-  
-}
 
 'use strict';
 
@@ -291,7 +285,7 @@ var Charts = (function() {
 						padding: 0
 					},
 					legend: {
-						display: false,
+						display: true,
 						position: 'bottom',
 						labels: {
 							usePointStyle: true,
@@ -353,7 +347,7 @@ var Charts = (function() {
 				borderDashOffset: [2],
 				color: (mode == 'dark') ? colors.gray[900] : colors.gray[300],
 				drawBorder: false,
-				drawTicks: false,
+				drawTicks: true,
 				drawOnChartArea: true,
 				zeroLineWidth: 0,
 				zeroLineColor: 'rgba(0,0,0,0)',
@@ -375,8 +369,8 @@ var Charts = (function() {
 		Chart.scaleService.updateScaleDefaults('category', {
 			gridLines: {
 				drawBorder: false,
-				drawOnChartArea: false,
-				drawTicks: false
+				drawOnChartArea: true,
+				drawTicks: true
 			},
 			ticks: {
 				padding: 20
@@ -451,9 +445,9 @@ var Charts = (function() {
 	// Update options
 	function updateOptions(elem) {
 		var options = elem.data('update');
-		var $chart = $(elem.data('target'));
-		//var $chart = $target.data('chart');
-		debugger
+		var $target = $(elem.data('target'));
+		var $chart = $target.data('chart');
+		//debugger
 
 		// Parse options
 		parseOptions($chart, options);
@@ -941,79 +935,100 @@ var BarsChart = (function() {
 var SalesChart = (function() {
 
   // Variables
+  
+  
+  Array.from($("#card-sales").find(".chart-canvas")).forEach( elem => {
+	// Methods
+	
+	var $chart = $(elem);
+	function init($chart) {
+		
 
-  var $chart = $('#chart-sales');
-
-
-  // Methods
-
-  function init($chart) {
-
-    var salesChart = new Chart($chart, {
-      type: 'line',
-      options: {
-        scales: {
-			yAxes: [{
-			  ticks: {
-				callback: function(value) {
-				  if (!(value % 10)) {
-					return '$' + value + 'k';
+		datos_simples = $chart.data('chart');
+		datos_dobles = datos_simples.replace(/'/g, '"')
+		datos = JSON.parse(datos_dobles)
+		fechas = Object.keys(datos)
+		valores_invertidos = fechas.map(k=> 
+			parseFloat(datos[k]["valor_invertido"])
+		)
+		valores_capital = fechas.map(k=> 
+			parseFloat(datos[k]["capital"])
+		)
+		
+		var salesChart = new Chart($chart, {
+		  type: 'line',
+		  options: {
+			scales: {
+				yAxes: [{
+				  ticks: {
+					callback: function(value) {
+					  if (!(value % 10)) {
+						return '$' + value + ' USD';
+					  }
+					}
 				  }
+				}]
+			  },
+			tooltips: {
+			  callbacks: {
+				label: function(item, data) {
+				  var label = data.datasets[item.datasetIndex].label || '';
+				  var yLabel = item.yLabel;
+				  var content = '';
+	
+				  if (data.datasets.length > 1) {
+					content +=  label;
+				  }
+	
+				  content += ' $' + yLabel + " ";
+				  return content;
 				}
 			  }
-			}]
+			}
 		  },
-        tooltips: {
-          callbacks: {
-            label: function(item, data) {
-              var label = data.datasets[item.datasetIndex].label || '';
-              var yLabel = item.yLabel;
-              var content = '';
+		  data: {
+			labels: fechas,
+			datasets: [{
+			  label: 'Capital',
+			  data: valores_invertidos,
+			  borderColor: "#f2622e",
+			  backgroundColor: "#f2622e",
+			  fill: false
+			  
+			},
+			{
+				label: 'Inversión',
+				data: valores_capital,
+				borderColor: "#018669",
+				backgroundColor: "#018669", 
+				fill: false
+			  }	
+		]
+		  }
+		});
+	
+		// Save to jQuery object
+	
+		$chart.data('chart', salesChart);
+	
+	  };
+	
+	
+	  // Events
+	
+	  if ($chart.length) {
+		init($chart);
+	  }
+  })
 
-              if (data.datasets.length > 1) {
-                content +=  label;
-              }
-
-              content += '$' + yLabel + 'k';
-              return content;
-            }
-          }
-        }
-      },
-      data: {
-        labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        datasets: [{
-          label: 'Capital',
-          data: [10, 20, 40, 50, 55, 60, 70, 80, 85],
-		  borderColor: "#f2622e",
-		  backgroundColor: "#f2622e",
-		  fill: false
-        },
-		{
-			label: 'Inversión',
-			data: [10, 10, 10, 10, 10, 20, 30, 40, 50],
-			borderColor: "#018669",
-			backgroundColor: "#018669", 
-			fill: false
-		  }	
-	]
-      }
-    });
-
-    // Save to jQuery object
-
-    $chart.data('chart', salesChart);
-
-  };
-
-
-  // Events
-
-  if ($chart.length) {
-    init($chart);
-  }
+  
 
 })();
+
+//salesbotones = $("#header-sales").find(".button-project")
+//if(salesbotones.length > 0){
+	//$(salesbotones[0]).trigger("click");
+//}
 
 //
 // Bootstrap Datepicker
