@@ -164,12 +164,14 @@ h5{
 .colorletra{
   color: #F2622E;
 }
-
-.cuadro_t1{
- background-color:#018669;
- height: 15px;
- weight: 15px;
+.lineat{
+  margin: 7px 0px 0px 0px;
+  background-color: rgba(0, 0, 0, 0.09);
+  width: 100%;
+  position: absolute;
+  right: 0rem;
 }
+
 
 </style>
 <h1 style="font-size: 25px">Dashboard</h1>
@@ -406,9 +408,9 @@ h5{
         <div class="col-xl-4">
           <div class="card bg-default">
             <div class="card-body">
-              <h5 class="h3 text-verde mb-0">Ingresos totales generados</h5>
-              <div class="cuadro_t1"></div>
-              <div class="box-chart-pie mt-5">
+              <h5 class="h3 text-verde mb-0 ">Ingresos totales generados</h5>
+              <hr class="lineat">
+              <div class="box-chart-pie mt-4">
                 <canvas id="myChartPieDb" height="0" style="display: block; width: 0px; height: 0px;" width="0"></canvas>
               </div>
             </div>
@@ -494,7 +496,7 @@ h5{
                     <i class="material-icons position-absolute end-0">file_download</i></a>            
                   <a href="{% static "account/css/terminoses.pdf" %}" class="btn border-light boton-documento avt" type="button" target="_blank">Certificado ICA
                     <i class="material-icons position-absolute end-0">file_download</i></a>
-                  <a href="{% static "account/css/contratoarrendamiento.pdf" %}" class="btn border-light boton-documento avt" type="button" target="_blank">Arrendamiento tierras 
+                  <a href="{% static "account/css/contrarrendat.pdf" %}" class="btn border-light boton-documento avt" type="button" target="_blank">Arrendamiento tierras 
                     <i class="material-icons position-absolute end-0">file_download</i></a>
                   <a href="{% static "account/css/PEMFTREECONOMYDILUVIO.pdf" %}" class="btn border-light text-star boton-documento avt" type="button" target="_blank">Plan Establec. Forestal
                     <i class="material-icons position-absolute end-0">file_download</i></a>   
