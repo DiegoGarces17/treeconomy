@@ -884,45 +884,111 @@ if($map.length) {
 // Bars chart
 //
 
+
+
 var BarsChart = (function() {
 
 	//
 	// Variables
 	//
-    
-	var $chart = $('#chart-bars');
+	Array.from($("#card-bars").find(".chart-canvas-gen")).forEach( elem => {
+		var $chart = $(elem);
+
+		function initChart($chart) {
+
+			datos_simples = $chart.data('chart');
+			datos_dobles = datos_simples.replace(/'/g, '"')
+			datos = JSON.parse(datos_dobles)
+			proyectos = Object.keys(datos)
+			arboles_acumulados = proyectos.map(k=> 
+				parseFloat(datos[k]["total_trees"])
+			)
+			
+			// Create chart
+			var ordersChart = new Chart($chart, {
+				type: 'bar',
+				data: {
+					labels: proyectos,
+					datasets: [{
+						label: ['Árboles'],
+						data: arboles_acumulados,
+						borderColor: "#f2622e",
+			  			backgroundColor: "#f2622e"
+					}
+					]
+				}
+			});
+			
 
 
-	//
-	// Methods
-	//
+			// Save to jQuery object
+			$chart.data('chart', ordersChart);
+		}
 
-	// Init chart
-	function initChart($chart) {
 
-		// Create chart
-		var ordersChart = new Chart($chart, {
-			type: 'bar',
-			data: {
-				labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-				datasets: [{
-					label: 'Sales',
-					data: [25, 20, 30, 22, 17, 29]
-				}]
-			}
-		});
+		// Init chart
 		
+		if ($chart.length) {
+			initChart($chart);
+		}
+	})
+    Array.from($("#card-bars").find(".chart-canvas-pro")).forEach( elem => {
+		
+		var $chart = $(elem);
 
 
-		// Save to jQuery object
-		$chart.data('chart', ordersChart);
-	}
+		//
+		// Methods
+		//
+
+		// Init chart
+		function initChart($chart) {
+
+			datos_simples = $chart.data('chart');
+			datos_dobles = datos_simples.replace(/'/g, '"')
+			datos = JSON.parse(datos_dobles)
+			fechas = Object.keys(datos)
+			arboles_nuevos = fechas.map(k=> 
+				parseFloat(datos[k]["new_trees"])
+			)
+			arboles_acumulados = fechas.map(k=> 
+				parseFloat(datos[k]["total_trees"])
+			)
+			
+			// Create chart
+			var ordersChart = new Chart($chart, {
+				type: 'bar',
+				data: {
+					labels: fechas,
+					datasets: [{
+						label: 'Árboles nuevos',
+						data: arboles_nuevos,
+						borderColor: "#f2622e",
+			  			backgroundColor: "#f2622e"
+					}, 
+					{
+						label: 'Acumulado',
+						data: arboles_acumulados,
+						borderColor: "#018669",
+						backgroundColor: "#018669"
+					} 
+					]
+				}
+			});
+			
 
 
-	// Init chart
-	if ($chart.length) {
-		initChart($chart);
-	}
+			// Save to jQuery object
+			$chart.data('chart', ordersChart);
+		}
+
+
+		// Init chart
+		
+		if ($chart.length) {
+			initChart($chart);
+		}
+	})
 
 })();
 
@@ -989,7 +1055,7 @@ var SalesChart = (function() {
 		  data: {
 			labels: fechas,
 			datasets: [{
-			  label: 'Capital',
+			  label: 'Inversión',
 			  data: valores_invertidos,
 			  borderColor: "#f2622e",
 			  backgroundColor: "#f2622e",
@@ -997,7 +1063,7 @@ var SalesChart = (function() {
 			  
 			},
 			{
-				label: 'Inversión',
+				label: 'Capital',
 				data: valores_capital,
 				borderColor: "#018669",
 				backgroundColor: "#018669", 
@@ -1025,10 +1091,21 @@ var SalesChart = (function() {
 
 })();
 
-//salesbotones = $("#header-sales").find(".button-project")
-//if(salesbotones.length > 0){
-	//$(salesbotones[0]).trigger("click");
-//}
+
+
+$(function(){
+  
+  salesbotones = $("#header-sales").find(".button-project")
+  barsbotones = $("#header-bars").find(".button-bars")
+  
+  if(salesbotones.length > 0){
+	$(salesbotones[0]).click();
+  }
+
+  if(barsbotones.length > 0){
+	$(barsbotones[0]).click();
+  }
+})
 
 //
 // Bootstrap Datepicker
@@ -1182,26 +1259,39 @@ var Scrollbar = (function() {
 // GRafica circular de utilidades vs inversion
 var PieChart = (function() {
 	var $piechart = $('#myChartPieDb');
-	
+	datos_res = $piechart.data('chart');
+	datos_res_dobles = datos_res.replace(/'/g, '"')
+	datos_resumen = JSON.parse(datos_res_dobles)
+	invertido = (parseFloat(datos_resumen[0]) * 100)/ parseFloat(datos_resumen[2])
+	utilidad = (parseFloat(datos_resumen[1]) * 100)/ parseFloat(datos_resumen[2])
 	function init($piechart) {
 		
 		var myChartPieDb = new Chart($piechart, {
 			type: 'pie',
 			data: {
-					labels: ["Inversión Inicial", "Utilidad"],
+					labels: ["Valor invertido", "Utilidad"],
 					datasets: [{
 							label: "Ganancias totales)",
 							backgroundColor: ["#018669", "#F9E09E"],
-							data: [50,50]
+							data: [invertido.toFixed(2), utilidad.toFixed(2)]
 					}]
 			},
+			
 			options: {
 					title: {
 							display: false
 					},
 					legend: {
 							position: 'bottom',
-					}
+					},
+					tooltips: {
+						mode: 'label',
+						callbacks: {
+							label: function(tooltipItem, data) { 
+								return " " + data.labels[tooltipItem["index"]] + ": " + data.datasets[0].data[tooltipItem["index"]] + "%";
+							}
+						}
+					},
 			}
 		});
 		// Save to jQuery object
