@@ -46,7 +46,16 @@
         cursor: pointer;
         border: solid 1px #012623
     }
+    .fondob{
+        background-color: #f5f5f5 !important;
+    }
 </style>
+<nav class="fondob" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'profile' %}">Perfil</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Editar Perfil</li>
+    </ol>
+  </nav>
 <form method="post" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
 <div class="container rounded bg-white mt-5 mb-5">

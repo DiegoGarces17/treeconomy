@@ -170,10 +170,17 @@
     color: #035941;
     font-size: 16px;
 }
-
+.fondob{
+  background-color: #ffffff !important;
+}
 
 </style>
-
+<nav class="fondob" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/projects">Proyectos</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ project.name }}</li>
+  </ol>
+</nav>
 <div class="banner-producto">
   <div class="container">
     {% if user|can:'manage_a_project' %}

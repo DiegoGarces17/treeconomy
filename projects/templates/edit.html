@@ -3,6 +3,19 @@
 {% block title %}Edit Project{% endblock %}
 
 {% block content %}
+{% load permission_tags %}
+<style>
+    .fondob{
+  background-color: #ffffff !important;
+}
+</style>
+
+<nav class="fondob" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'profile' %}">Proyectos</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Editar Proyecto</li>
+    </ol>
+  </nav>
 formulario para editar proyecto
 <section class="container">
 {% include "form.html" %}
