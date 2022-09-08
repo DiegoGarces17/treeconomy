@@ -25,6 +25,7 @@ from rolepermissions.roles import assign_role
 from django.core import serializers
 from django.http import JsonResponse
 from django.views import generic
+from dashboard.views import invest_json, calculo_co2
 
 def home(request):
     return render(request,'account/index.html',{'section':'index'})
@@ -162,7 +163,26 @@ def profile(request):
     total = sum(list(map(lambda x: x.n_trees(), pbi )))
     inversion_int =  sum(list(map(lambda x: x.inversion(), pbi )))
     inversion = "{:.2f}".format(int(inversion_int or 0) /100)
-    return render(request,'account/profile.html', {'user': request.user, 'total': total, 'inversion': inversion})
+    ## Utilidad
+    invest = invest_json(request)
+    resumen = invest[1]
+    suma_utilidad = 0
+    suma_arboles_acumulados = 0
+    co2_consumption = calculo_co2(request)
+    
+    for key in resumen:
+        suma_utilidad += float(resumen[key]['utilidad'])
+        suma_arboles_acumulados += resumen[key]['total_trees']
+    #co2_capturado = CO2_CONSUMPTION_PER_TREE_PER_DAY * suma_arboles_acumulados * 365
+    suma_utilidad_str = "{:.2f}".format(suma_utilidad)
+
+    return render(request,'account/profile.html', {
+        'user': request.user, 
+        'total': total, 
+        'inversion': inversion,
+        'utilidad': suma_utilidad_str,
+        'co2_capturado': co2_consumption
+        })
 
 
     

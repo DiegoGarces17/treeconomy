@@ -13,6 +13,7 @@ from django.http import JsonResponse
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from pandas import json_normalize
+from datetime import date
 
 
 
@@ -22,6 +23,7 @@ def invest_json(request):
     projects_id= list(map(lambda x: x.project_id, pbi))
     api = {}
     resumen = {}
+    resumen_mes_anterior = {}
     inv_general = 0
     cap_general = 0
     rentabilidad= 0.0094
@@ -40,9 +42,6 @@ def invest_json(request):
             fechafin = fecha + relativedelta(months=1)
             ordenes = Order.objects.filter(ordered_date__gte=fecha, ordered_date__lt= fechafin, user=usuario)
             fechas_ordenes = list(map(lambda x: str(x.ordered_date.date()), ordenes))
-            #print(fecha)
-            #print(fecha + relativedelta(months=1))
-            #print(ordenes.count())
             new_trees = 0
             for orden in ordenes:
                 if orden.ordered:
@@ -66,8 +65,10 @@ def invest_json(request):
         api[Project.objects.get(pk=project_id).name] = api_fecha
         proyecto  = Project.objects.get(pk=project_id).name
         resumen[proyecto] = api[proyecto][list(api[proyecto].keys())[-1]]
+        resumen_mes_anterior[proyecto] = api[proyecto][list(api[proyecto].keys())[-2]]
         
-    return [api, resumen]
+        
+    return [api, resumen, resumen_mes_anterior]
 
 def invest_api(request):
     datos = invest_json(request)[0]
@@ -78,16 +79,38 @@ def invest(request):
     datos = invest_api(request)
     
     #df = json_normalize(datos)
-    print(type(datos))
     return render(request, 'invest.html',{
             'table': "dat",
         })
+    
+def calculo_co2(request):
+    DAYS_PER_YEAR = 365
+    TREES_PER_HECTARE = 500
+    CO2_CONSUMPTION_PER_HECTARE_PER_YEAR = 35
+    CO2_CONSUMPTION_PER_TREE_PER_YEAR = (CO2_CONSUMPTION_PER_HECTARE_PER_YEAR / TREES_PER_HECTARE)
+    CO2_CONSUMPTION_PER_TREE_PER_DAY = (CO2_CONSUMPTION_PER_TREE_PER_YEAR / DAYS_PER_YEAR)
+    usuario = request.user
+    pbis = ProjectByInvestor.objects.filter(investor=usuario)
+    co2_total = 0
+    for pbi in pbis:
+        time_project = pbi.project.plantation_date
+        hoy = date.today()
+        dias = hoy - time_project
+        co2_op = pbi.n_trees_subscription * dias.days * CO2_CONSUMPTION_PER_TREE_PER_DAY
+        co2_su = pbi.n_trees_one_payment * dias.days * CO2_CONSUMPTION_PER_TREE_PER_DAY
+        co2_total += co2_op + co2_su
+    co2_consumption = "{:.2f}".format(co2_total)
+    return co2_consumption    
+        
+        
+    
 
 def dashboard(request):
     projects = Project.objects.all()
     invest = invest_json(request)
     datos = invest[0]
     resumen = invest[1]
+    resumen_mes_anterior = invest[2]
     ## Gráfca inversion
     user_projects = Project.objects.filter(name__in= list(datos.keys()))
     ## Gráfica torta y  ## Grafica árboles
@@ -95,8 +118,11 @@ def dashboard(request):
     suma_utilidad = 0
     suma_capital = 0
     suma_arboles_acumulados= 0
-    print(resumen)
     
+    suma_inversion_mes_anterior = 0
+    suma_utilidad_mes_anterior = 0
+    suma_capital_mes_anterior = 0
+    suma_arboles_acumulados_mes_anterior= 0
     
     for key in resumen:
         suma_inversion += float(resumen[key]['valor_invertido'])
@@ -105,13 +131,28 @@ def dashboard(request):
         #suma_arboles_nuevos += float(resumen[key]['new_trees'])
         suma_arboles_acumulados += resumen[key]['total_trees']
     
-    print(suma_inversion)
+    for key in resumen_mes_anterior:
+        suma_inversion_mes_anterior += float(resumen_mes_anterior[key]['valor_invertido'])
+        suma_utilidad_mes_anterior += float(resumen_mes_anterior[key]['utilidad'])
+        suma_capital_mes_anterior += float(resumen_mes_anterior[key]['capital'])
+        #suma_arboles_nuevos += float(resumen[key]['new_trees'])
+        suma_arboles_acumulados_mes_anterior += resumen_mes_anterior[key]['total_trees']
+    
     suma_inversion_str = "{:.2f}".format(suma_inversion)
     suma_utilidad_str = "{:.2f}".format(suma_utilidad)
     suma_capital_str = "{:.2f}".format(suma_capital)
+    co2_consumption = calculo_co2(request)
     #suma_arboles_nuevos = "{:.2f}".format(suma_arboles_nuevos)
     #suma_arboles_acumulados = "{:.2f}".format(suma_arboles_acumulados) 
     resumen_general = [suma_inversion_str, suma_utilidad_str, suma_capital_str]
+    
+    ## Comparación con mes anterior
+    comp_utilidad = ((suma_utilidad - suma_utilidad_mes_anterior)*100)/suma_utilidad_mes_anterior
+    comp_capital = "{:.2f}".format(((suma_capital - suma_capital_mes_anterior)*100)/suma_capital_mes_anterior)
+    comp_inversion = "{:.2f}".format(((suma_inversion - suma_inversion_mes_anterior)*100)/suma_inversion_mes_anterior)
+    comp_arboles = "{:.2f}".format(((suma_arboles_acumulados - suma_arboles_acumulados_mes_anterior)*100)/suma_arboles_acumulados_mes_anterior)
+    print(suma_capital)
+    print(suma_capital_mes_anterior)
     return render(request, 'argon.html',{
         'projects': projects,
         'user_projects': user_projects,
@@ -123,6 +164,11 @@ def dashboard(request):
         'capital_total': resumen_general[2],
         'arboles_total': suma_arboles_acumulados,
         'rentabilidad': '0.94 %',
+        'co2_total': co2_consumption, 
+        'comp_utilidad': comp_utilidad, 
+        'comp_capital': comp_capital, 
+        'comp_inversion': comp_inversion, 
+        'comp_arboles': comp_arboles
         
     })
     

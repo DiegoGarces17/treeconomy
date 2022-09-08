@@ -210,8 +210,8 @@
                     </div>
                     <div class="col-6 col-lg-6">
                         <div class="count-data text-center">
-                            <h6 class="count h2" data-to="150" data-speed="150">150</h6>
-                            <p class="m-0px font-w-600">Utility</p>
+                            <h6 class="count h2" data-to="150" data-speed="150">{{ utilidad }} USD</h6>
+                            <p class="m-0px font-w-600">Utilidad</p>
                         </div>
                     </div>
                   </div>
@@ -224,7 +224,7 @@
                     </div>
                     <div class="col-6 col-lg-6">
                         <div class="count-data text-center">
-                            <h6 class="count h2" data-to="190" data-speed="190">190</h6>
+                            <h6 class="count h2" data-to="190" data-speed="190">{{ co2_capturado }} Kg</h6>
                             <p class="m-0px font-w-600">CO2 capturado</p>
                         </div>
                     </div>
@@ -238,7 +238,7 @@
             <div class="row about-list">
               <div class="col-md-4">
                 <div class="media">
-                    <label>Birthday</label>
+                    <label>cumpleaños</label>
                     <p>{{ user.profile.date_of_birth }}</p>
                 </div>
                 <div class="media">
@@ -246,11 +246,11 @@
                     <p>22 años</p>
                 </div>
                 <div class="media">
-                    <label>Residence</label>
+                    <label>Residencia</label>
                     <p>{{ user.profile.country }}, {{ user.profile.state}}, {{ user.profile.city }}</p>
                 </div>
                 <div class="media">
-                    <label>Direccion</label>
+                    <label>Dirección</label>
                     <p>{{ user.profile.adress }}</p>
                 </div>
                 
@@ -261,7 +261,7 @@
                       <p>{{ user.email }}</p>
                   </div>
                   <div class="media">
-                      <label>Telefono</label>
+                      <label>Teléfono</label>
                       <p>{{ user.profile.phone }}</p>
                   </div>
                   <div class="media">
