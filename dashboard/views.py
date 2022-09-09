@@ -147,10 +147,22 @@ def dashboard(request):
     resumen_general = [suma_inversion_str, suma_utilidad_str, suma_capital_str]
     
     ## Comparación con mes anterior
-    comp_utilidad = ((suma_utilidad - suma_utilidad_mes_anterior)*100)/suma_utilidad_mes_anterior
-    comp_capital = "{:.2f}".format(((suma_capital - suma_capital_mes_anterior)*100)/suma_capital_mes_anterior)
-    comp_inversion = "{:.2f}".format(((suma_inversion - suma_inversion_mes_anterior)*100)/suma_inversion_mes_anterior)
-    comp_arboles = "{:.2f}".format(((suma_arboles_acumulados - suma_arboles_acumulados_mes_anterior)*100)/suma_arboles_acumulados_mes_anterior)
+    if suma_utilidad_mes_anterior > 0:
+        comp_utilidad = ((suma_utilidad - suma_utilidad_mes_anterior)*100)/suma_utilidad_mes_anterior
+    else:
+        comp_utilidad  = 0
+    if suma_capital_mes_anterior > 0:
+        comp_capital = "{:.2f}".format(((suma_capital - suma_capital_mes_anterior)*100)/suma_capital_mes_anterior)
+    else:
+        comp_capital = 0
+    if suma_inversion_mes_anterior > 0:
+        comp_inversion = "{:.2f}".format(((suma_inversion - suma_inversion_mes_anterior)*100)/suma_inversion_mes_anterior)
+    else:
+        comp_inversion = 0
+    if suma_arboles_acumulados_mes_anterior:
+        comp_arboles = "{:.2f}".format(((suma_arboles_acumulados - suma_arboles_acumulados_mes_anterior)*100)/suma_arboles_acumulados_mes_anterior)
+    else:
+        comp_arboles = 0
     print(suma_capital)
     print(suma_capital_mes_anterior)
     return render(request, 'argon.html',{
